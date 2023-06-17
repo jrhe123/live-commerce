@@ -31,12 +31,7 @@ Live commerce platform
 - IM
 - Donate
 
-```
-Payment   Account   Donate    Livestream
-
-
-            User    IM
-```
+![Untitled Diagram drawio](https://github.com/jrhe123/live-commerce/assets/17329299/cbae7840-257d-4902-bcd1-a5e1f1dbf196)
 
 ## Stack
 
