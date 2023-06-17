@@ -2,6 +2,26 @@
 
 Live commerce platform
 
+## User flow
+
+```
+--------------------------------------------[wallet]---------(send / receive 💰)----------------------
+|                                                                                                    |
+|                                                                                                    |
+|                                                                    login ----------                |
+|                                                                      ^            |                |
+|                                                                      |            |                |
+|                                                                     "NO"          |         --- Donate ---
+|                                                                      |            |        |              |
+👤 -----> live platform -----> live show -----> select live -----> [logged in]   enter show - |               | -----> exit
+           home page             list              show                            room       |              |          |
+               ^                                                                                ---  Chat  ---          |
+               |                                                                                                        |
+               |                                                                                                        |
+                ---------------------------------------------------------------------------------------------------------
+
+```
+
 ## Stack
 
 - DB: MySQL
