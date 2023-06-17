@@ -11,8 +11,8 @@ Live commerce platform
 |                                                                    login ----------                |
 |                                                                      ^            |                |
 |                                                                      |            |                |
-|                                                                     "NO"          |         --- Donate ---
-|                                                                      |            |        |              |
+|                                                                     "NO"          |          --- Donate ---
+|                                                                      |            |         |              |
 👤 -----> live platform -----> live show -----> select live -----> [logged in]   enter show - |               | -----> exit
            home page             list              show                            room       |              |          |
                ^                                                                                ---  Chat  ---          |
