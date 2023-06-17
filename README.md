@@ -2,7 +2,7 @@
 
 Live commerce platform
 
-### Stack
+## Stack
 
 - DB: MySQL
 - Cache: Caffeine, Redis
@@ -10,7 +10,7 @@ Live commerce platform
 - Container: Docker
 - Others: SpringBoot, MyBatisPlus, Dubbo, ShardingJDBC, Nacos, Netty
 
-### Dubbo
+## Dubbo
 
 #### Why we use Dubbo?
 
