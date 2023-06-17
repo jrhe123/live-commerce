@@ -44,7 +44,7 @@ Live commerce platform
 
 - Spring Cloud
   - Eureka, Ribbon, Feign, Hystrix, Zuul, Archaius
-- Spring Cloud Alibaba (we used in this project)
+- Spring Cloud Alibaba (🦄)
   - Spring Cloud Gateway, Nacos, Dubbo, RocketMQ, Sentinel, Seata
 
 ```
