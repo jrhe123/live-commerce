@@ -22,6 +22,22 @@ Live commerce platform
 
 ```
 
+## Modules
+
+- User
+- Account
+- Payment
+- Livestream
+- IM
+- Donate
+
+```
+Payment   Account   Donate    Livestream
+
+
+            User    IM
+```
+
 ## Stack
 
 - DB: MySQL
