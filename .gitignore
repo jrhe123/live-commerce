@@ -16,6 +16,9 @@ buildNumber.properties
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 
+# complied
+.DS_Store
+
 #docker
 #rocketmq
 /docker/rocketmq/data
