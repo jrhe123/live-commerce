@@ -3,7 +3,7 @@ services:
   #Service for nameserver
   namesrv:
     image: apache/rocketmq:4.8.0
-    container_name: rmqnamesrv
+    container_name: namesrv
     ports:
       - 9876:9876
     volumes:
@@ -13,7 +13,7 @@ services:
   #Service for broker
   broker:
     image: apache/rocketmq:4.8.0
-    container_name: rmqbroker
+    container_name: broker
     links:
       - namesrv
     ports:
