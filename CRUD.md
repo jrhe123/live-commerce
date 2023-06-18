@@ -42,3 +42,7 @@ Live commerce platform
     - delay the second redis deletion
       - event driven
       - binlog driven
+
+#### Register user
+
+- 🔑 generation algorithm
