@@ -18,6 +18,33 @@ buildNumber.properties
 
 # complied
 .DS_Store
+# Compiled class file
+/live-app/*.class
+
+# Log file
+/live-app/*.log
+
+# BlueJ files
+/live-app/*.ctxt
+
+# Mobile Tools for Java (J2ME)
+/live-app/.mtj.tmp/
+
+# Package Files #
+/live-app/*.jar
+/live-app/*.war
+/live-app/*.nar
+/live-app/*.ear
+/live-app/*.zip
+/live-app/*.tar.gz
+/live-app/*.rar
+/live-app/*.iml
+/live-app/target/
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+/live-app/hs_err_pid*
+/live-app/.idea/
+/live-app/.idea/*.xml
+
 
 #docker
 #rocketmq
