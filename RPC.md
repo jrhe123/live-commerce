@@ -23,3 +23,9 @@ Live commerce platform
 - Json
 - Xml
 - Protobuf
+
+## RPC vs. Http
+
+- custom protocol, e.g, no request header
+- smaller size
+- long connection (same in http2)
