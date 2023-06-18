@@ -1,21 +1,21 @@
 version: "3.8"
 
 volumes:
-  mysqldata:
+  mysql8data:
     driver: local
 
 services:
-  mysql:
+  mysql8:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
-    container_name: mysql
+    container_name: mysql8
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: live_commerce
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     volumes:
-      - "mysqldata:/var/lib/mysql"
+      - "mysql8data:/var/lib/mysql"
       - "./my.cnf:/etc/mysql/conf.d/my.cnf"
     ports:
       - 3306:3306

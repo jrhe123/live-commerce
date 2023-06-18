@@ -40,4 +40,4 @@ services:
       - "./my.cnf:/etc/mysql/conf.d/my.cnf"
       - "./init.sql:/data/init.sql"
     ports:
-      - 3306:3306
+      - 33066:3306
