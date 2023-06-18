@@ -1,0 +1,2 @@
+username: nacos
+password: nacos

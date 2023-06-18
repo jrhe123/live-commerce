@@ -1,0 +1,43 @@
+version: "3.0"
+
+volumes:
+  mysqldata:
+    driver: local
+
+services:
+  nacos:
+    image: zhusaidong/nacos-server-m1:2.0.3
+    container_name: nacos
+    environment:
+      - PREFER_HOST_MODE=hostname
+      - MODE=standalone
+      - SPRING_DATASOURCE_PLATFORM=mysql
+      - MYSQL_SERVICE_HOST=mysql
+      - MYSQL_SERVICE_PORT=3306
+      - MYSQL_SERVICE_DB_NAME=nacos_config
+      - MYSQL_SERVICE_USER=root
+      - MYSQL_SERVICE_PASSWORD=root
+      - JVM_XMS=256m
+      - JVM_XMX=512m
+      - JVM_XMN=256m
+    volumes:
+      - ./standalone-logs/:/home/nacos/logs
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+      - "9849:9849"
+
+  mysql:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - "mysqldata:/var/lib/mysql"
+      - "./my.cnf:/etc/mysql/conf.d/my.cnf"
+      - "./init.sql:/data/init.sql"
+    ports:
+      - 3306:3306

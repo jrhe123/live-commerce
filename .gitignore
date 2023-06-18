@@ -19,3 +19,5 @@ buildNumber.properties
 #docker
 #rocketmq
 /docker/rocketmq/data
+#nacos
+/docker/nacos/standalone-logs
