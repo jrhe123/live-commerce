@@ -11,7 +11,7 @@
     <modules>
         <module>live-user-interface</module>
         <module>live-user-provider</module>
-      	<module>demo-module</module>
+      	<module>live-api</module>
   </modules>
 
     <properties>
