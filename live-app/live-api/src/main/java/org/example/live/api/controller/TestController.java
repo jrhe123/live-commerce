@@ -10,6 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test")
 public class TestController {
 	
+//	@DubboReference(
+//			group = "",
+//			version = "",
+//			loadbalance = "",
+//			async = true,
+//			url = ""
+//			)
+	
 	@DubboReference
 	private IUserRpc userRpc;
 
