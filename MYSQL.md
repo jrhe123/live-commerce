@@ -13,12 +13,16 @@ Live commerce platform
   - multiple tables: 450gb \* 5 = 2250gb
 
 - Hardware for 10,000 concurrency
+
   - processor: X86 or ARM
   - storage: SSD 2000GB
   - CPU: 32
   - RAM: 96GB
   - Connection: 12000
   - Cost: $24104.6 per year
+
+- Local DB
+  - 100 users tables: 1 Million rows per table
 
 ```
 CREATE DATABASE live_user CHARACTER  set utf8mb3 COLLATE=utf8_bin;
@@ -72,5 +76,9 @@ CREATE
       END WHILE;
 
   END$$
-DELIMITER;
+DELIMITER ;
+```
+
+```
+CALL `live_user`.`create_t_user_100`();
 ```
