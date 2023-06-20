@@ -25,10 +25,14 @@ Live commerce platform
   - 100 users tables: 1 Million rows per table
 
 ```
+# create db
+
 CREATE DATABASE live_user CHARACTER  set utf8mb3 COLLATE=utf8_bin;
 ```
 
 ```
+# create procedure for 100 of user tables
+
 DELIMITER $$
 
 CREATE
@@ -80,5 +84,21 @@ DELIMITER ;
 ```
 
 ```
+# execute the procedure
+
 CALL `live_user`.`create_t_user_100`();
+```
+
+```
+# check tables storage
+
+select
+table_schema as 'database',
+table_name as 'table',
+table_rows as 'records',
+truncate(data_length/1024/1024, 2) as 'data storage(MB)',
+truncate(index_length/1024/1024, 2) as 'index storage(MB)'
+from information_schema.tables
+where table_schema='live_user'
+order by data_length desc, index_length desc;
 ```
