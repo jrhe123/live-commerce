@@ -19,7 +19,7 @@ Live commerce platform
   - CPU: 32
   - RAM: 96GB
   - Connection: 12000
-  - Cost: $24104.6 per year
+  - Cost: $24,104.6 per year
 
 - Local DB
   - 100 users tables: 1 Million rows per table
