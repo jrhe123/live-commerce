@@ -1,21 +1,40 @@
 version: "3.8"
 
 volumes:
-  mysql8data:
+  mysql8masterdata:
+    driver: local
+  mysql8slavedata:
     driver: local
 
 services:
-  mysql8:
+  mysql-master:
     image: mysql
-    command: --default-authentication-plugin=mysql_native_password
-    container_name: mysql8
+    command: --default-authentication-plugin=mysql_native_password --lower_case_table_names=1
+    container_name: mysql-master
     restart: always
+    privileged: true
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: live_commerce
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     volumes:
-      - "mysql8data:/var/lib/mysql"
-      - "./my.cnf:/etc/mysql/conf.d/my.cnf"
+      - "mysql8masterdata:/var/lib/mysql"
+      - "./master/my.cnf:/etc/mysql/conf.d/my.cnf"
+      - "./master/mysql-files/:/var/lib/mysql-files/"
     ports:
-      - 3306:3306
+      - 8808:3306
+
+  mysql-slave:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password --lower_case_table_names=1
+    container_name: mysql-slave
+    restart: always
+    privileged: true
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - "mysql8slavedata:/var/lib/mysql"
+      - "./slave/my.cnf:/etc/mysql/conf.d/my.cnf"
+      - "./slave/mysql-files/:/var/lib/mysql-files/"
+    ports:
+      - 8809:3306
