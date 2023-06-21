@@ -56,3 +56,5 @@ rules:
         #    algorithm-expression: t_user_tag_${(user_id % 100).toString().padLeft(2,'0')}
 props:
   sql-show: true
+  
+  

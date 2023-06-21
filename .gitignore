@@ -51,3 +51,6 @@ buildNumber.properties
 /docker/rocketmq/data
 #nacos
 /docker/nacos/standalone-logs
+
+#temp files
+temp.md

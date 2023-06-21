@@ -7,4 +7,7 @@ public interface IUserService {
 	
 	UserDTO getByUserId(Long userId);
 	
+	boolean updateUserInfo(UserDTO userDTO);
+	
+	boolean insertOne(UserDTO userDTO);
 }
