@@ -1,4 +1,4 @@
-package org.example.live.user.provider.config;
+package org.example.live.framework.datasource.starter.config;
 
 import java.sql.Connection;
 
