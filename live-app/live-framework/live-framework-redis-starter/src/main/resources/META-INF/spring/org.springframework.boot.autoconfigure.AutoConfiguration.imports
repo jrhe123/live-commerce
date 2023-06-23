@@ -1,0 +1,2 @@
+org.example.live.framework.redis.starter.config.RedisConfig
+org.example.live.framework.redis.starter.key.UserProviderCacheKeyBuilder

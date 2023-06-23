@@ -1,6 +1,7 @@
 package org.example.live.user.provider.service.impl;
 
 import org.example.live.common.interfaces.ConvertBeanUtils;
+import org.example.live.framework.redis.starter.key.UserProviderCacheKeyBuilder;
 import org.example.live.user.dto.UserDTO;
 import org.example.live.user.provider.dao.mapper.IUserMapper;
 import org.example.live.user.provider.dao.po.UserPO;
@@ -18,6 +19,9 @@ public class UserServiceImpl implements IUserService {
 	
 	@Resource
 	private RedisTemplate<String, UserDTO> redisTemplate;
+	
+	@Resource
+	private UserProviderCacheKeyBuilder userProviderCacheKeyBuilder;
 
 	@Override
 	public UserDTO getByUserId(Long userId) {
@@ -25,9 +29,11 @@ public class UserServiceImpl implements IUserService {
 			return null;
 		}
 		// redis
-		String keyString = "userInfo:" + userId;
+		// String keyString = "userInfo:" + userId;
+		String keyString = userProviderCacheKeyBuilder.buildTagKey(userId);
 		UserDTO userDTO = redisTemplate.opsForValue().get(keyString);
 		if (userDTO != null) return userDTO;
+		
 		// mysql
 		userDTO = ConvertBeanUtils.convert(
 				userMapper.selectById(userId), UserDTO.class);
