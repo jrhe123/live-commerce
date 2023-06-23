@@ -8,7 +8,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     
-    <artifactId>qiyu-live-framework-redis-starter</artifactId>
+    <artifactId>live-framework-redis-starter</artifactId>
     
     <dependencies>
         <dependency>
