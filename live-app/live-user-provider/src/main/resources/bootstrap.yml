@@ -1,6 +1,6 @@
 spring:
-  application:
-    name: live-user-provider
+#  application:
+#    name: live-user-provider
   cloud:
     nacos:
       username: nacos

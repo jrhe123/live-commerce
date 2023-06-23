@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: live-user-provider
   datasource:
     driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
     url: jdbc:shardingsphere:classpath:db-sharding.yaml
@@ -10,3 +12,12 @@ spring:
       connection-init-sql: select 1
       connection-timeout: 4000
       max-lifetime: 60000
+      
+dubbo:
+  application:
+    name: ${spring.application.name}
+  registry:
+    address: nacos://127.0.0.1:8848?namespace=live-test&&username=nacos&&password=nacos
+  protocol:
+    name: dubbo
+    port: 9091
