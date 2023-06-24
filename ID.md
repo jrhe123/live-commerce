@@ -6,6 +6,19 @@ Live commerce platform
 
 #### Why we use custom generator? (🦄)
 
+```
+                           (check if reach threadshold) --------Yes---------
+                                        ^                                   |
+                                        |                                   |
+                                        |                                   |
+                                  -------------                             |
+                                 |             |     (sync id to RAM)       |
+[client] -----Dubbo request------|    [RAM]    | <----------------------- MySQL
+                                 |     id      |
+                                  -------------
+                                  Dobbo provider
+```
+
 - Long-term maintainence
 - Dubbo & RAM & MySQL
 
