@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: live-id-generate-provider
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #MySQL master addr
+    url: jdbc:mysql://localhost:8808/live_common?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: root
+
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#
+#logging:
+#  level:
+#    com.chz.mapper: debug
+
+dubbo:
+  application:
+    name: ${spring.application.name}
+  registry:
+    address: nacos://127.0.0.1:8848?namespace=live-test&&username=nacos&&password=nacos
+  protocol:
+    name: dubbo
+    port: 9098
