@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -13,10 +14,14 @@ import org.example.live.user.dto.UserDTO;
 import org.example.live.user.provider.dao.mapper.IUserMapper;
 import org.example.live.user.provider.dao.po.UserPO;
 import org.example.live.user.provider.service.IUserService;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.internal.ThreadLocalRandom;
 import com.google.common.collect.Maps;
 
 import jakarta.annotation.Resource;
@@ -48,7 +53,8 @@ public class UserServiceImpl implements IUserService {
 		userDTO = ConvertBeanUtils.convert(
 				userMapper.selectById(userId), UserDTO.class);
 		if (userDTO != null) {
-			redisTemplate.opsForValue().set(keyString, userDTO);
+			redisTemplate.opsForValue().set(
+					keyString, userDTO, 30, TimeUnit.MINUTES);
 		}
 		
 		return userDTO;
@@ -172,7 +178,25 @@ public class UserServiceImpl implements IUserService {
 							userDTO->userProviderCacheKeyBuilder.buildUserInfoKey(userDTO.getUserId()), 
 							x->x
 							));
+			// multiset
 			redisTemplate.opsForValue().multiSet(saveCacheMap);
+			
+			// reduce IO, batch set expire time
+			redisTemplate.executePipelined(new SessionCallback<Object>() {
+				@Override
+				public <K, V> Object execute(RedisOperations<K, V> operations) 
+						throws DataAccessException {
+					
+					for(String redisKey: saveCacheMap.keySet()) {
+						// why we use random expire time?
+						// try to avoid expiration for a big batch of data
+						// pressure back to mysql
+						operations.expire((K) redisKey, 
+								createRandomExpireTime(), TimeUnit.SECONDS);
+					}
+					return null;
+				}
+			});
 		}
 				
 		// 6. merge the redis & mysql result
@@ -182,6 +206,11 @@ public class UserServiceImpl implements IUserService {
 				Collectors.toMap(UserDTO::getUserId, x -> x)
 				);
 		return resultMap;
+	}
+	
+	private int createRandomExpireTime() {
+		int time = ThreadLocalRandom.current().nextInt(1000);
+		return time + 60 * 30;
 	}
 }
 
