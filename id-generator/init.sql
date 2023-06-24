@@ -1,6 +1,6 @@
 CREATE DATABASE live_common  CHARACTER  set utf8mb3 COLLATE=utf8_bin;
 
-CREATE TABLE `t_id_generate_config` (
+CREATE TABLE `live_common`.`t_id_generate_config` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'primary id',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'remark',
   `next_threshold` bigint DEFAULT NULL COMMENT 'current id threashold value',
