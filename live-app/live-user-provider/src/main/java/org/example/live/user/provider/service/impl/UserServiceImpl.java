@@ -1,5 +1,12 @@
 package org.example.live.user.provider.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import org.example.live.common.interfaces.ConvertBeanUtils;
 import org.example.live.framework.redis.starter.key.UserProviderCacheKeyBuilder;
 import org.example.live.user.dto.UserDTO;
@@ -8,6 +15,9 @@ import org.example.live.user.provider.dao.po.UserPO;
 import org.example.live.user.provider.service.IUserService;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import com.google.common.collect.Maps;
 
 import jakarta.annotation.Resource;
 
@@ -30,7 +40,7 @@ public class UserServiceImpl implements IUserService {
 		}
 		// redis
 		// String keyString = "userInfo:" + userId;
-		String keyString = userProviderCacheKeyBuilder.buildTagKey(userId);
+		String keyString = userProviderCacheKeyBuilder.buildUserInfoKey(userId);
 		UserDTO userDTO = redisTemplate.opsForValue().get(keyString);
 		if (userDTO != null) return userDTO;
 		
@@ -67,4 +77,121 @@ public class UserServiceImpl implements IUserService {
 		userMapper.insert(userPO);
 		return true;
 	}
+
+	@Override
+	public Map<Long, UserDTO> batchQueryUserInfo(List<Long> userIdList) {
+		if (CollectionUtils.isEmpty(userIdList)) {
+			return Maps.newHashMap();
+		}
+		
+		userIdList = userIdList.stream().filter(
+				id -> id > 10000).collect(Collectors.toList());
+		if (CollectionUtils.isEmpty(userIdList)) {
+			return Maps.newHashMap();
+		}
+		
+		// redis
+		/**
+		 * v1
+		 * redis get for each userId
+		 * 
+		 * userIdList.forEach(userId -> {
+		 *   redisTemplate.opsForValue().get(userId);
+		 * });
+		 */
+		/**
+		 * v2
+		 * use redis multiGet()
+		 * 
+		 * one I/O instead of multiple search
+		 */
+		// 1. list we search
+		List<String> keyList = new ArrayList<>();
+		userIdList.forEach(userId -> {
+			keyList.add(
+					userProviderCacheKeyBuilder.buildUserInfoKey(userId)
+					);
+		});
+		
+		// 2. cached list of userDTO
+		List<UserDTO> userDTOList = redisTemplate.opsForValue()
+				.multiGet(keyList).stream().filter(x -> x!=null)
+				.collect(Collectors.toList());
+		
+		// 2.1 everything is cached
+		if (!CollectionUtils.isEmpty(userDTOList) &&
+				userDTOList.size() == userIdList.size()
+				) {
+			Map<Long, UserDTO> resultMap = userDTOList.stream().collect(
+					Collectors.toMap(UserDTO::getUserId, x -> x)
+					);
+			return resultMap;
+		}
+			
+		// 3. convert to list of id
+		List<Long> userIdInCacheList = userDTOList.stream()
+				.map(UserDTO::getUserId)
+				.collect(Collectors.toList());
+		
+		// 4. list of id not cached, then we search them in mysql
+		List<Long> userIdNotInCacheList = userIdList.stream()
+				.filter(x->!userIdInCacheList.contains(x))
+				.collect(Collectors.toList());
+		
+		
+		// mysql
+		/**
+		 * v1
+		 * bad performance, "union all"
+		 * 
+		 * userMapper.selectBatchIds(userIdList);
+		 */
+		
+		/**
+		 * v2
+		 * let's use multi-threads here, we mod 100 (%100) every 100 per table
+		 * each thread batch search list of userId, which is in SAME table
+		 */
+		Map<Long, List<Long>> userIdMap = userIdNotInCacheList.stream().collect(
+				Collectors.groupingBy(userId -> userId%100)
+				);
+		
+		List<UserDTO> dbQueryResult = new CopyOnWriteArrayList<>();
+		userIdMap.values().parallelStream().forEach(queryUserIdList -> {
+			List<UserDTO> eachList = 
+					ConvertBeanUtils.convertList(
+							userMapper.selectBatchIds(queryUserIdList), UserDTO.class);
+					
+			dbQueryResult.addAll(eachList);
+		});
+		
+		// 5. cache mysql result back to redis
+		if (!CollectionUtils.isEmpty(dbQueryResult)) {
+			Map<String, UserDTO> saveCacheMap = dbQueryResult.stream()
+					.collect(Collectors.toMap(
+							userDTO->userProviderCacheKeyBuilder.buildUserInfoKey(userDTO.getUserId()), 
+							x->x
+							));
+			redisTemplate.opsForValue().multiSet(saveCacheMap);
+		}
+				
+		// 6. merge the redis & mysql result
+		userDTOList.addAll(dbQueryResult);
+		// 7. result
+		Map<Long, UserDTO> resultMap = userDTOList.stream().collect(
+				Collectors.toMap(UserDTO::getUserId, x -> x)
+				);
+		return resultMap;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+

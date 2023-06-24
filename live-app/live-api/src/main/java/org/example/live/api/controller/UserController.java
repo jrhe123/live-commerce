@@ -1,5 +1,10 @@
 package org.example.live.api.controller;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.example.live.user.dto.UserDTO;
 import org.example.live.user.interfaces.IUserRpc;
@@ -17,6 +22,15 @@ public class UserController {
 	@GetMapping("/getUserInfo")
 	public UserDTO getUserInfo(Long userId) {
 		return userRpc.getByUserId(userId);
+	}
+	
+	@GetMapping("/batchQueryUserInfo")
+	public Map<Long, UserDTO> batchQueryUserInfo(String userIdStr) {
+		
+		List<Long> userIdList = Arrays.asList(userIdStr.split(","))
+			.stream().map(x->Long.valueOf(x))
+			.collect(Collectors.toList());
+		return userRpc.batchQueryUserInfo(userIdList);
 	}
 	
 	@GetMapping("/updateUserInfo")
