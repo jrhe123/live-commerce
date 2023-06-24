@@ -8,6 +8,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import org.apache.rocketmq.client.exception.MQBrokerException;
+import org.apache.rocketmq.client.exception.MQClientException;
+import org.apache.rocketmq.client.producer.MQProducer;
+import org.apache.rocketmq.common.message.Message;
+import org.apache.rocketmq.remoting.exception.RemotingException;
 import org.example.live.common.interfaces.ConvertBeanUtils;
 import org.example.live.framework.redis.starter.key.UserProviderCacheKeyBuilder;
 import org.example.live.user.dto.UserDTO;
@@ -21,6 +26,7 @@ import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.internal.ThreadLocalRandom;
 import com.google.common.collect.Maps;
 
@@ -37,6 +43,9 @@ public class UserServiceImpl implements IUserService {
 	
 	@Resource
 	private UserProviderCacheKeyBuilder userProviderCacheKeyBuilder;
+	
+	@Resource
+	private MQProducer mqProducer;
 
 	@Override
 	public UserDTO getByUserId(Long userId) {
@@ -66,9 +75,35 @@ public class UserServiceImpl implements IUserService {
 			return false;
 		}
 		
+		// update mysql
 		userMapper.updateById(
 				ConvertBeanUtils.convert(userDTO, UserPO.class)
 				);
+		
+		// delete redis
+		String keyString = userProviderCacheKeyBuilder.buildUserInfoKey(userDTO.getUserId());
+		redisTemplate.delete(keyString);
+		
+		// mq delay delete redis
+		try {
+			Message message = new Message();
+			message.setTopic("user-update-cache");
+			message.setBody(JSON.toJSONString(userDTO).getBytes());
+			message.setDelayTimeLevel(1); // delay 1 sec
+			mqProducer.send(message);
+		} catch (MQClientException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemotingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MQBrokerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return true;
 	}

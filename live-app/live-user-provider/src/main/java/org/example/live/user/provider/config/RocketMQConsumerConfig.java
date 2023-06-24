@@ -9,10 +9,15 @@ import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
 import org.apache.rocketmq.common.message.MessageExt;
+import org.example.live.framework.redis.starter.key.UserProviderCacheKeyBuilder;
+import org.example.live.user.dto.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
+
+import com.alibaba.fastjson.JSON;
 
 import groovyjarjarantlr4.v4.parse.ANTLRParser.finallyClause_return;
 import jakarta.annotation.Resource;
@@ -30,6 +35,12 @@ public class RocketMQConsumerConfig implements InitializingBean {
 
 	@Resource
 	private RocketMQConsumerProperties consumerProperties;
+	
+	@Resource
+	private RedisTemplate<String, Object> redisTemplate;
+	
+	@Resource
+	private UserProviderCacheKeyBuilder userProviderCacheKeyBuilder;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -50,7 +61,24 @@ public class RocketMQConsumerConfig implements InitializingBean {
 				@Override
 				public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs,
 						ConsumeConcurrentlyContext context) {
-					System.out.println("consumer received: " + msgs.get(0).getBody());
+					
+					System.out.println("!!!!!!!!!!");
+					System.out.println("!!!!!!!!!!");
+					System.out.println("!!!!!!!!!!");
+					System.out.println("!!!!!!!!!!");
+					System.out.println("CONSUMER received: NOW we delete the redis cache again");
+					String msgString = new String(msgs.get(0).getBody());
+					UserDTO userDTO = JSON.parseObject(
+							msgString, 
+							UserDTO.class);
+					
+					if (userDTO == null || userDTO.getUserId() == null) {
+						LOGGER.error("Consumer: user id is null {}", msgString);
+						return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+					}
+					redisTemplate.delete(
+							userProviderCacheKeyBuilder.buildUserInfoKey(userDTO.getUserId())
+							);					
 					return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
 				}
 			});
