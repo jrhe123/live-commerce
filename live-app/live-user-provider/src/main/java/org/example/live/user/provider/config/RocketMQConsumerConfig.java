@@ -57,7 +57,7 @@ public class RocketMQConsumerConfig implements InitializingBean {
 
 			defaultMQPushConsumer.start();
 
-			LOGGER.info("mq consumer start: nameSrv is {}", consumerProperties.getNameSrv());
+			LOGGER.info("RocketMQ consumer started: nameSrv is {}", consumerProperties.getNameSrv());
 		} catch (MQClientException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

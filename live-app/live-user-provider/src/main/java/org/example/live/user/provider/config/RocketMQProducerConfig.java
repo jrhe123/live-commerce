@@ -64,7 +64,7 @@ public class RocketMQProducerConfig {
 			
 			defaultMQProducer.start();
 			
-			LOGGER.info("mq producer start: nameSrv is {}", producerProperties.getNameSrv());
+			LOGGER.info("RocketMQ producer started: nameSrv is {}", producerProperties.getNameSrv());
 			
 		} catch (MQClientException e) {
 			// TODO Auto-generated catch block
