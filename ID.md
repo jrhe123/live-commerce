@@ -32,19 +32,19 @@ Live commerce platform
     - no re-useable risk
   - cons
     - too long
-    - no sorting
+    - no sequential
     - not good with mysql search
 - redis id: incr / increby
   - pros
     - no DB dependency
-    - number id sorting
+    - number id sequential
     - performance
   - cons
     - not support non-continous id
     - store in redis, risk of loss
 - MySQL id: auto_increment
   - pros
-    - sorting
+    - sequential
   - cons
     - DB dependency
     - high cost, low performace
@@ -52,7 +52,7 @@ Live commerce platform
   - pros
     - performace
     - low latency
-    - sorting
+    - sequential
   - cons
     - standalone deploy
     - machine clock dependency
