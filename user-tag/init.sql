@@ -1,4 +1,4 @@
-CREATE TABLE `t_user_tag` (
+CREATE TABLE live_user.`t_user_tag` (
   `user_id` bigint NOT NULL DEFAULT -1 COMMENT 'user id',
   `tag_info_01` bigint NOT NULL DEFAULT '0' COMMENT 'tag in bit',
   `tag_info_02` bigint NOT NULL DEFAULT '0' COMMENT 'tag in bit',

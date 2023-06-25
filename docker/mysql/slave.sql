@@ -5,8 +5,8 @@ set global server_id = 2;
 stop slave;
 reset slave;
 
--- 9856 is from "show master status;"
-change master to master_host='192.168.12.4',master_port=8808,master_user='test-slave',master_password='test-81710181',master_log_file='mysql-bin.000001',master_log_pos=9856;
+-- 98273 is from "show master status;"
+change master to master_host='192.168.12.4',master_port=8808,master_user='test-slave',master_password='test-81710181',master_log_file='mysql-bin.000001',master_log_pos=98273;
 
 start slave;
 

@@ -34,7 +34,11 @@ public class UserTagServiceImpl implements IUserTagService {
 
 	@Override
 	public boolean containTag(Long userId, UserTagsEnum userTagsEnum) {
+//		UserTagPO userTagPO = userTagMapper.selectByUserId(userId);
 		UserTagPO userTagPO = userTagMapper.selectById(userId);
+		
+		System.out.println("userTagPO: " + userTagPO);
+		
 		if (userTagPO == null) {
 			return false;
 		}
