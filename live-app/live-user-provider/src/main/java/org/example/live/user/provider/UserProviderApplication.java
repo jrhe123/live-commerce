@@ -32,7 +32,7 @@ public class UserProviderApplication implements CommandLineRunner {
 		
 //		System.out.println("add vip tag: " + userTagService.setTag(userId, UserTagsEnum.IS_VIP));
 		
-		System.out.println("check vip tag exists: " + userTagService.containTag(userId, UserTagsEnum.IS_VIP));
+//		System.out.println("check vip tag exists: " + userTagService.containTag(userId, UserTagsEnum.IS_VIP));
 		
 //		System.out.println("cancel vip tag: " + userTagService.cancelTag(userId, UserTagsEnum.IS_VIP));
 //		
