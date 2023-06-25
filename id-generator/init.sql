@@ -20,5 +20,5 @@ INSERT INTO `t_id_generate_config` (`id`, `remark`,
 `is_seq`, `id_prefix`, `version`, `create_time`,
 `update_time`)
 VALUES
-(1, 'user id generator strategy', 10050, 10000, 10000, 50, 0, 
+(1, 'user id generator strategy', 11500, 10000, 10000, 1500, 1, 
 'user_id', 0, '2023-05-23 12:38:21', '2023-05-23 23:31:45');

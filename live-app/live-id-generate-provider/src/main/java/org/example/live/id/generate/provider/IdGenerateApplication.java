@@ -35,11 +35,11 @@ public class IdGenerateApplication implements CommandLineRunner {
 		HashSet<Long> idSet = new HashSet<>();
 		for (int i = 0; i < 1300; i++) {
 			Long id = idGenerateService.getSeqId(1);
+//			Long id = idGenerateService.getUnSeqId(1);
 			idSet.add(id);
-
-			System.out.println(id);
+//			System.out.println(id);
 		}
-		System.out.println(idSet.size());
+		System.out.println("size: " + idSet.size());
 	}
 
 }
