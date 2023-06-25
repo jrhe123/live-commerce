@@ -15,7 +15,7 @@ spring:
 #logging:
 #  level:
 #    com.chz.mapper: debug
-
+    
 dubbo:
   application:
     name: ${spring.application.name}
@@ -23,4 +23,4 @@ dubbo:
     address: nacos://127.0.0.1:8848?namespace=live-test&&username=nacos&&password=nacos
   protocol:
     name: dubbo
-    port: 9098
+    port: 9091

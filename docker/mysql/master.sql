@@ -8,6 +8,7 @@ show variables like 'server_id';
 
 set global server_id = 1;
 
+-- check position
 show master status;
 
 show binlog events;
