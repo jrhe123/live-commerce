@@ -1,6 +1,7 @@
 package org.example.live.user.provider.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -15,6 +16,9 @@ import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.exception.RemotingException;
 import org.example.live.common.interfaces.ConvertBeanUtils;
 import org.example.live.framework.redis.starter.key.UserProviderCacheKeyBuilder;
+import org.example.live.user.contants.CacheAsyncDeleteCode;
+import org.example.live.user.contants.UserProviderTopicNames;
+import org.example.live.user.dto.UserCacheAsyncDeleteDTO;
 import org.example.live.user.dto.UserDTO;
 import org.example.live.user.provider.dao.mapper.IUserMapper;
 import org.example.live.user.provider.dao.po.UserPO;
@@ -47,6 +51,7 @@ public class UserServiceImpl implements IUserService {
 	@Resource
 	private MQProducer mqProducer;
 
+	
 	@Override
 	public UserDTO getByUserId(Long userId) {
 		if (userId == null) {
@@ -86,9 +91,17 @@ public class UserServiceImpl implements IUserService {
 		
 		// mq delay delete redis
 		try {
+			
+			Map<String, Object> jsonParam = new HashMap<>();
+			jsonParam.put("userId", userDTO.getUserId());
+			UserCacheAsyncDeleteDTO userCacheAsyncDeleteDTO = new UserCacheAsyncDeleteDTO();
+			userCacheAsyncDeleteDTO.setCode(CacheAsyncDeleteCode.USER_INFO_DELETE.getCode());
+			userCacheAsyncDeleteDTO.setJson(JSON.toJSONString(jsonParam));
+			
+			
 			Message message = new Message();
-			message.setTopic("user-update-cache");
-			message.setBody(JSON.toJSONString(userDTO).getBytes());
+			message.setTopic(UserProviderTopicNames.CACHE_ASYNC_DELETE_TOPIC);
+			message.setBody(JSON.toJSONString(userCacheAsyncDeleteDTO).getBytes());
 			message.setDelayTimeLevel(1); // delay 1 sec
 			mqProducer.send(message);
 		} catch (MQClientException e) {

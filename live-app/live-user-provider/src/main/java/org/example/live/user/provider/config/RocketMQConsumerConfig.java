@@ -10,6 +10,9 @@ import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.example.live.framework.redis.starter.key.UserProviderCacheKeyBuilder;
+import org.example.live.user.contants.CacheAsyncDeleteCode;
+import org.example.live.user.contants.UserProviderTopicNames;
+import org.example.live.user.dto.UserCacheAsyncDeleteDTO;
 import org.example.live.user.dto.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +44,10 @@ public class RocketMQConsumerConfig implements InitializingBean {
 	
 	@Resource
 	private UserProviderCacheKeyBuilder userProviderCacheKeyBuilder;
+	
+	@Resource
+    private UserProviderCacheKeyBuilder cacheKeyBuilder;
+	
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -51,11 +58,12 @@ public class RocketMQConsumerConfig implements InitializingBean {
 
 		try {
 			DefaultMQPushConsumer defaultMQPushConsumer = new DefaultMQPushConsumer();
+			defaultMQPushConsumer.setVipChannelEnabled(false);
 			defaultMQPushConsumer.setNamesrvAddr(consumerProperties.getNameSrv());
-			defaultMQPushConsumer.setConsumerGroup(consumerProperties.getGroupName());
+			defaultMQPushConsumer.setConsumerGroup(consumerProperties.getGroupName() + "_" + RocketMQConsumerConfig.class.getSimpleName());
 			defaultMQPushConsumer.setConsumeMessageBatchMaxSize(1);
 			defaultMQPushConsumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
-			defaultMQPushConsumer.subscribe("user-update-cache", "*");
+			defaultMQPushConsumer.subscribe(UserProviderTopicNames.CACHE_ASYNC_DELETE_TOPIC, "");
 
 			defaultMQPushConsumer.setMessageListener(new MessageListenerConcurrently() {
 				@Override
@@ -66,19 +74,22 @@ public class RocketMQConsumerConfig implements InitializingBean {
 					System.out.println("!!!!!!!!!!");
 					System.out.println("!!!!!!!!!!");
 					System.out.println("!!!!!!!!!!");
-					System.out.println("CONSUMER received: NOW we delete the redis cache again");
-					String msgString = new String(msgs.get(0).getBody());
-					UserDTO userDTO = JSON.parseObject(
-							msgString, 
-							UserDTO.class);
+					System.out.println("CONSUMER received");
 					
-					if (userDTO == null || userDTO.getUserId() == null) {
-						LOGGER.error("Consumer: user id is null {}", msgString);
-						return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
-					}
-					redisTemplate.delete(
-							userProviderCacheKeyBuilder.buildUserInfoKey(userDTO.getUserId())
-							);					
+					String msgString = new String(msgs.get(0).getBody());
+					UserCacheAsyncDeleteDTO userCacheAsyncDeleteDTO = JSON.parseObject(
+							msgString, UserCacheAsyncDeleteDTO.class);
+					
+					if (CacheAsyncDeleteCode.USER_INFO_DELETE.getCode() == userCacheAsyncDeleteDTO.getCode()) {
+	                    Long userId = JSON.parseObject(userCacheAsyncDeleteDTO.getJson()).getLong("userId");
+	                    redisTemplate.delete(cacheKeyBuilder.buildUserInfoKey(userId));
+	                    LOGGER.info("delay delete user info cache, userId is {}",userId);
+	                } else if (CacheAsyncDeleteCode.USER_TAG_DELETE.getCode() == userCacheAsyncDeleteDTO.getCode()) {
+	                    Long userId = JSON.parseObject(userCacheAsyncDeleteDTO.getJson()).getLong("userId");
+	                    redisTemplate.delete(cacheKeyBuilder.buildTagKey(userId));
+	                    LOGGER.info("delay delete user tag cache, userId is {}",userId);
+	                }
+					
 					return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
 				}
 			});
