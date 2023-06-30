@@ -9,6 +9,8 @@
     </parent>
     
     <artifactId>live-user-provider</artifactId>
+    
+    <version>1.0.2</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -106,13 +108,52 @@
     </dependencies>
 
     <build>
+		<finalName>live-user-provider-docker</finalName>
         <plugins>
 			<plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.2.0</version>
+                <executions>
+                    <!-- when mvn install，we exec docker build -->
+                    <execution>
+                        <id>build</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>build</goal>
+                             <!-- <goal>push</goal> -->
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <imageTags>
+                        <imageTag>${project.version}</imageTag>
+                    </imageTags>
+                    <!--<imageName>${docker.registry.address}/${docker.registry.namespace}/${project.build.finalName}</imageName>-->
+                    <imageName>${project.build.finalName}</imageName>
+                    <!--Dockerfile path-->
+                    <dockerDirectory>${project.basedir}/docker</dockerDirectory>
+                    <resources>
+                        <!-- jar path -->
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <!-- below content copy to docker image -->
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                        <!--<resource>
+                            <targetPath>/</targetPath>
+                            <directory>${arthus.zip.address}</directory>
+                            <include>arthas-bin.zip</include>
+                        </resource>-->
+                    </resources>
+                </configuration>
+            </plugin>
+
+            <!-- SpringBoot app to jar-->
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <classifier>exec</classifier>
-                </configuration>
             </plugin>
         </plugins>
     </build>
