@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.MQProducer;
@@ -129,9 +128,7 @@ public class UserTagServiceImpl implements IUserTagService {
 	public boolean containTag(Long userId, UserTagsEnum userTagsEnum) {
 //		UserTagPO userTagPO = userTagMapper.selectByUserId(userId);
 		UserTagDTO userTagDTO = this.queryByUserIdFromRedis(userId);
-		
-		System.out.println("userTagPO: " + userTagDTO);
-		
+				
 		if (userTagDTO == null) {
 			return false;
 		}

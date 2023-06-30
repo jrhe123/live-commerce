@@ -28,25 +28,21 @@ public class UserRpcImpl implements IUserRpc {
 
 	@Override
 	public UserDTO getByUserId(Long userId) {
-		// TODO Auto-generated method stub
 		return userService.getByUserId(userId);
 	}
 
 	@Override
 	public boolean updateUserInfo(UserDTO userDTO) {
-		// TODO Auto-generated method stub
 		return userService.updateUserInfo(userDTO);
 	}
 
 	@Override
 	public boolean insertOne(UserDTO userDTO) {
-		// TODO Auto-generated method stub
 		return userService.insertOne(userDTO);
 	}
 
 	@Override
 	public Map<Long, UserDTO> batchQueryUserInfo(List<Long> userIdList) {
-		// TODO Auto-generated method stub
 		return userService.batchQueryUserInfo(userIdList);
 	}
 

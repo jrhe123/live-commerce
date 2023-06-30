@@ -9,7 +9,7 @@ spring:
       minimum-idle: 15
       idle-timeout: 60000
       maximum-pool-size: 300
-      connection-init-sql: select 1
+      #connection-init-sql: select 1
       connection-timeout: 4000
       max-lifetime: 60000
   data:

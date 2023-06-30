@@ -69,16 +69,16 @@ public class RocketMQConsumerConfig implements InitializingBean {
 				@Override
 				public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs,
 						ConsumeConcurrentlyContext context) {
-					
-					System.out.println("!!!!!!!!!!");
-					System.out.println("!!!!!!!!!!");
-					System.out.println("!!!!!!!!!!");
-					System.out.println("!!!!!!!!!!");
-					System.out.println("CONSUMER received");
-					
+										
 					String msgString = new String(msgs.get(0).getBody());
 					UserCacheAsyncDeleteDTO userCacheAsyncDeleteDTO = JSON.parseObject(
 							msgString, UserCacheAsyncDeleteDTO.class);
+					
+					System.out.println("!!!!!!!!!!");
+					System.out.println("!!!!!!!!!!");
+					System.out.println("!!!!!!!!!!");
+					System.out.println("!!!!!!!!!!");
+					System.out.println("CONSUMER received: " + userCacheAsyncDeleteDTO);
 					
 					if (CacheAsyncDeleteCode.USER_INFO_DELETE.getCode() == userCacheAsyncDeleteDTO.getCode()) {
 	                    Long userId = JSON.parseObject(userCacheAsyncDeleteDTO.getJson()).getLong("userId");
