@@ -15,9 +15,11 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        
+        <maven.compiler.target>17</maven.compiler.target>        
         <maven.compiler.compilerVersion>17</maven.compiler.compilerVersion>
+        
+        
+        
         <curator.version>2.12.0</curator.version>
         <mybatis-plus.version>3.5.3</mybatis-plus.version>
         <druid.version>1.1.20</druid.version>
@@ -109,52 +111,62 @@
 
     <build>
 		<finalName>live-user-provider-docker</finalName>
+                
         <plugins>
-			<plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>1.2.0</version>
-                <executions>
-                    <!-- when mvn install，we exec docker build -->
-                    <execution>
-                        <id>build</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>build</goal>
-                             <!-- <goal>push</goal> -->
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <imageTags>
-                        <imageTag>${project.version}</imageTag>
-                    </imageTags>
-                    <!--<imageName>${docker.registry.address}/${docker.registry.namespace}/${project.build.finalName}</imageName>-->
-                    <imageName>${project.build.finalName}</imageName>
-                    <!--Dockerfile path-->
-                    <dockerDirectory>${project.basedir}/docker</dockerDirectory>
-                    <resources>
-                        <!-- jar path -->
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <!-- below content copy to docker image -->
-                            <directory>${project.build.directory}</directory>
-                            <include>${project.build.finalName}.jar</include>
-                        </resource>
-                        <!--<resource>
-                            <targetPath>/</targetPath>
-                            <directory>${arthus.zip.address}</directory>
-                            <include>arthas-bin.zip</include>
-                        </resource>-->
-                    </resources>
-                </configuration>
-            </plugin>
-
-            <!-- SpringBoot app to jar-->
+			
+			<!-- SpringBoot app to jar-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <artifactId>spring-boot-maven-plugin</artifactId> 
             </plugin>
+            
+			<plugin>
+	            <groupId>io.fabric8</groupId>
+	            <artifactId>docker-maven-plugin</artifactId>
+	            <version>0.38.1</version>
+	            <executions>
+	                <execution>
+	                    <id>build</id>
+	                    <phase>install</phase>
+	                    <goals>
+	                        <goal>build</goal>
+	                    </goals>
+	                </execution>
+	            </executions>
+	            <configuration>
+					<!-- <dockerHost>${docker.host}</dockerHost> -->
+					<dockerHost>tcp://127.0.0.1:2376</dockerHost>
+					<verbose>true</verbose>
+					<pushRegistry>true</pushRegistry>
+					
+					<authConfig>
+			            <username>{docker.username}</username>
+			            <password>{docker.password}</password>
+			        </authConfig>
+			        
+			        <images>
+						<image>
+							<registry>registry.hub.docker.com</registry>
+							<name>${project.build.finalName}</name>
+							<build>
+								<dockerFileDir>${project.basedir}/docker/</dockerFileDir>
+								<tags>
+									<tag>${project.version}</tag>
+								</tags>
+								<noCache>true</noCache>
+							</build>
+						</image>
+					</images>
+					
+					<buildArgs>
+						<JAR_FILE>
+							${project.build.finalName}.jar</JAR_FILE>
+					</buildArgs>
+				</configuration>
+	        </plugin> 
+
+            
+            
         </plugins>
     </build>
 </project>

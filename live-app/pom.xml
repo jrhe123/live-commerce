@@ -9,22 +9,23 @@
     <packaging>pom</packaging>
     
     <modules>
+		<module>live-user-provider</module>
         <module>live-user-interface</module>
-        <module>live-user-provider</module>
       	<module>live-api</module>
       	<module>live-common-interface</module>
       	<module>live-framework</module>
       	<module>live-id-generate-interface</module>
         <module>live-id-generate-provider</module>
-  </modules>
+  	</modules>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.compilerVersion>17</maven.compiler.compilerVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         
         <live-mysql.version>8.0.33</live-mysql.version>
-        <springboot.version>3.0.4</springboot.version>
+        <springboot.version>3.0.4</springboot.version>        
     </properties>
     
     <parent>
@@ -36,15 +37,16 @@
 
     <dependencyManagement>
         <dependencies>
-			<dependency>
-				<groupId>com.alibaba.cloud</groupId>
-				<artifactId>spring-cloud-alibaba-dependencies</artifactId>
-				<version>2022.0.0.0-RC1</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>2022.0.0.0-RC1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
+
 
 
 </project>
