@@ -54,3 +54,35 @@ buildNumber.properties
 
 #temp files
 temp.md
+
+#frontend app
+live-app-frontend/nodes.md
+live-app-frontend/storybook-static
+
+# ide
+live-app-frontend/*.iml
+live-app-frontend/.idea
+# dependencies
+live-app-frontend/node_modules
+live-app-frontend/.pnp
+live-app-frontend/.pnp.js
+
+# testing
+live-app-frontend/coverage
+live-app-frontend/cypress/videos
+live-app-frontend/cypress/screenshots
+
+# production
+live-app-frontend/build
+
+# misc
+live-app-frontend/.DS_Store
+live-app-frontend/.env
+live-app-frontend/.env.local
+live-app-frontend/.env.development.local
+live-app-frontend/.env.test.local
+live-app-frontend/.env.production.local
+
+live-app-frontend/npm-debug.log*
+live-app-frontend/yarn-debug.log*
+live-app-frontend/yarn-error.log*

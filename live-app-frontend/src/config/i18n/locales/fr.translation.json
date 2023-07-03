@@ -1,0 +1,30 @@
+{
+  "demo": {
+    "title": "Des postes",
+    "form": {
+      "title": "titre",
+      "body": "corps",
+      "validation": {
+        "title-required": "le titre ne peut pas être vide",
+        "title-max": "le titre ne doit pas dépasser {{num}} caractères",
+        "body-required": "le corps ne peut pas être vide"
+      }
+    },
+    "buttons": {
+      "submit": "Ajouter un nouveau message",
+      "reset": "Réinitialiser",
+      "delete": "Effacer",
+      "update": "Mise à jour"
+    }
+  },
+  "navigation": {
+    "language": "Langue",
+    "language-list": {
+      "en": "Anglais",
+      "fr": "Français"
+    },
+    "links": {
+      "demo": "Démo"
+    }
+  }
+}
