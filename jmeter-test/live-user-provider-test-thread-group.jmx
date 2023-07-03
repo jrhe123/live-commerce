@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="live-user-provider-test">
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="live-user-provider-test-thread-group">
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">10</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <io.github.ningyu.jmeter.plugin.dubbo.sample.DubboSample guiclass="io.github.ningyu.jmeter.plugin.dubbo.gui.DubboSampleGui" testclass="io.github.ningyu.jmeter.plugin.dubbo.sample.DubboSample" testname="Dubbo Sample">
+          <stringProp name="FIELD_DUBBO_CONFIG_CENTER_PROTOCOL">nacos</stringProp>
+          <stringProp name="FIELD_DUBBO_CONFIG_CENTER_GROUP"></stringProp>
+          <stringProp name="FIELD_DUBBO_CONFIG_CENTER_NAMESPACE">live-test</stringProp>
+          <stringProp name="FIELD_DUBBO_CONFIG_CENTER_USER_NAME">nacos</stringProp>
+          <stringProp name="FIELD_DUBBO_CONFIG_CENTER_PASSWORD">nacos</stringProp>
+          <stringProp name="FIELD_DUBBO_CONFIG_CENTER_ADDRESS">127.0.0.1:8848?namespace=live-test&amp;&amp;username=nacos&amp;&amp;password=nacos</stringProp>
+          <stringProp name="FIELD_DUBBO_CONFIG_CENTER_TIMEOUT"></stringProp>
+          <stringProp name="FIELD_DUBBO_REGISTRY_PROTOCOL"></stringProp>
+          <stringProp name="FIELD_DUBBO_REGISTRY_GROUP"></stringProp>
+          <stringProp name="FIELD_DUBBO_REGISTRY_USER_NAME"></stringProp>
+          <stringProp name="FIELD_DUBBO_REGISTRY_PASSWORD"></stringProp>
+          <stringProp name="FIELD_DUBBO_ADDRESS"></stringProp>
+          <stringProp name="FIELD_DUBBO_REGISTRY_TIMEOUT"></stringProp>
+          <stringProp name="FIELD_DUBBO_RPC_PROTOCOL">dubbo://</stringProp>
+          <stringProp name="FIELD_DUBBO_TIMEOUT">80</stringProp>
+          <stringProp name="FIELD_DUBBO_VERSION"></stringProp>
+          <stringProp name="FIELD_DUBBO_RETRIES">0</stringProp>
+          <stringProp name="FIELD_DUBBO_GROUP"></stringProp>
+          <stringProp name="FIELD_DUBBO_CONNECTIONS">100</stringProp>
+          <stringProp name="FIELD_DUBBO_LOADBALANCE">roundrobin</stringProp>
+          <stringProp name="FIELD_DUBBO_ASYNC">sync</stringProp>
+          <stringProp name="FIELD_DUBBO_CLUSTER">failfast</stringProp>
+          <stringProp name="FIELD_DUBBO_INTERFACE">org.example.live.user.interfaces.IUserRpc</stringProp>
+          <stringProp name="FIELD_DUBBO_METHOD">getByUserId</stringProp>
+          <intProp name="FIELD_DUBBO_METHOD_ARGS_SIZE">1</intProp>
+          <intProp name="FIELD_DUBBO_ATTACHMENT_ARGS_SIZE">0</intProp>
+          <stringProp name="FIELD_DUBBO_METHOD_ARGS_PARAM_TYPE1">java.lang.Long</stringProp>
+          <stringProp name="FIELD_DUBBO_METHOD_ARGS_PARAM_VALUE1">10004</stringProp>
+        </io.github.ningyu.jmeter.plugin.dubbo.sample.DubboSample>
+        <hashTree/>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
