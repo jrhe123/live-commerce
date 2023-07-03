@@ -7,29 +7,35 @@
         <artifactId>live-app</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+        
+    <artifactId>live-gateway</artifactId>
+    <description>API gateway</description>
     
-    <artifactId>live-api</artifactId>
-    
-    <version>1.0.4</version>
+    <version>1.0.1</version>
     
     <properties>
-        <docker.registry.address>registry.baidubce.com</docker.registry.address>
-        <docker.registry.namespace>live-test</docker.registry.namespace>
+        <spring-cloud-starter-gateway.version>4.0.6</spring-cloud-starter-gateway.version>
+        <spring-cloud-starter-loadbalancer.version>4.0.3</spring-cloud-starter-loadbalancer.version>
+        <spring-cloud-starter-bootstrap.version>3.0.2</spring-cloud-starter-bootstrap.version>
+        <alibaba-fastjson.version>2.0.10</alibaba-fastjson.version>
     </properties>
-    
+
     <dependencies>
+        <!--gateway 内部引入了webflux-->
         <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-spring-boot-starter</artifactId>
-            <version>3.2.0-beta.3</version>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
+            <version>${spring-cloud-starter-gateway.version}</version>
         </dependency>
-        
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+            <version>${spring-cloud-starter-loadbalancer.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
-        
-        <!-- nacos config -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
@@ -37,27 +43,13 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
-            <version>3.0.2</version>
+            <version>${spring-cloud-starter-bootstrap.version}</version>
         </dependency>
-        <!-- EOF nacos config -->
-        
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>log4j-to-slf4j</artifactId>
-                    <groupId>org.apache.logging.log4j</groupId>
-                </exclusion>
-            </exclusions>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${alibaba-fastjson.version}</version>
         </dependency>
-        
-        <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>live-user-interface</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        
         <dependency>
             <groupId>org.example</groupId>
             <artifactId>live-common-interface</artifactId>
@@ -65,18 +57,18 @@
         </dependency>
     </dependencies>
     
+    
     <build>
-		<finalName>${artifactId}-docker</finalName>
-                
+        <finalName>${artifactId}-docker</finalName>
+        
         <plugins>
-			
 			<!-- SpringBoot app to jar-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId> 
             </plugin>
             
-			<plugin>
+            <plugin>
 	            <groupId>io.fabric8</groupId>
 	            <artifactId>docker-maven-plugin</artifactId>
 	            <version>0.38.1</version>
@@ -123,8 +115,7 @@
 					</buildArgs>
 				</configuration>
 	        </plugin>
-
-            
+			
             
         </plugins>
     </build>

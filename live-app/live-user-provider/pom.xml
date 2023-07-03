@@ -181,7 +181,7 @@
 							${project.build.finalName}.jar</JAR_FILE>
 					</buildArgs>
 				</configuration>
-	        </plugin> 
+	        </plugin>
 
             
             

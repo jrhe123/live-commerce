@@ -14,7 +14,7 @@ public class ApiWebApplication {
 	public static void main(String[] args) {
 		SpringApplication application = new SpringApplication(ApiWebApplication.class);
 		application.setWebApplicationType(WebApplicationType.SERVLET);
-		application.setDefaultProperties(Collections.singletonMap("server.port", "8081"));
+//		application.setDefaultProperties(Collections.singletonMap("server.port", "8081"));
 		application.run(args);
 	}
 }
