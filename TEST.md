@@ -15,6 +15,9 @@ Live commerce platform
 - cd /Users/jiaronghe/Desktop/projects/jmeter/bin
 - sh jmeter.sh
 
+<img width="1217" alt="Screenshot 2023-07-03 at 4 54 23 PM" src="https://github.com/jrhe123/live-commerce/assets/17329299/f7a0c919-55c6-4d61-a055-5e22aa6b6564">
+
+
 #### Test Server: 2 core, 2 gb
 
 - 5 mins & JMeter
