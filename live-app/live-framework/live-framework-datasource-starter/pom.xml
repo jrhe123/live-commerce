@@ -23,6 +23,18 @@
             <artifactId>slf4j-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        
+        <!-- rewrite shardingJDBC code, for loading sharding yaml in nacos config -->
+        <dependency>
+            <groupId>org.apache.shardingsphere</groupId>
+            <artifactId>shardingsphere-jdbc-core</artifactId>
+            <version>5.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+        </dependency>
+        <!-- EOF rewrite shardingJDBC code, for loading sharding yaml in nacos config -->
     </dependencies>
 
 </project>
