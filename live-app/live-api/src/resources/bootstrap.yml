@@ -1,9 +1,9 @@
-server:
-  port: 8082
+#server:
+#  port: 8082
 
 spring:
-  application:
-    name: live-api
+#  application:
+#    name: live-api
   cloud:
     nacos:
       username: nacos
@@ -11,3 +11,12 @@ spring:
       discovery:
         server-addr: 127.0.0.1:8848
         namespace: live-test
+      config:
+        import-check:
+          enabled: false
+        file-extension: yaml
+        server-addr: 127.0.0.1:8848
+        namespace: live-test
+  config:
+    import:
+      - optional:nacos:live-api.yaml # load application.yml from nacos config

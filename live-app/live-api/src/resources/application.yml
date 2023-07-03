@@ -1,6 +1,10 @@
-dubbo:
-  application:
-    name: live-api
-    qos-enable: false
-  registry:
-    address: nacos://127.0.0.1:8848?namespace=live-test&&username=nacos&&password=nacos
+#dubbo:
+#  application:
+#    name: live-api
+#    qos-enable: false
+#  registry:
+#    address: nacos://127.0.0.1:8848?namespace=live-test&&username=nacos&&password=nacos
+#
+#server:
+#  servlet:
+#    context-path: /live/api
