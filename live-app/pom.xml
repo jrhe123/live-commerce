@@ -25,7 +25,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         
         <live-mysql.version>8.0.33</live-mysql.version>
-        <springboot.version>3.0.4</springboot.version>        
+        <springboot.version>3.0.4</springboot.version>    
+        
+        <docker.registry.address>registry.baidubce.com</docker.registry.address>
+        <docker.registry.namespace>live-test</docker.registry.namespace>
+        <arthus.zip.address>/Users/jiaronghe/env/arthus/</arthus.zip.address>    
     </properties>
     
     <parent>

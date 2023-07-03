@@ -155,8 +155,11 @@
 								</tags>
 								<noCache>true</noCache>
 							</build>
+							
+					
 						</image>
 					</images>
+					
 					
 					<buildArgs>
 						<JAR_FILE>

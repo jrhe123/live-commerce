@@ -64,3 +64,8 @@ env | grep DOCKER
 - your private hub registry: registry.baidubce.com
 
 docker run -d -v /tmp/logs/live-user-provider:/tmp/logs/live-user-provider -p 9091:9090 --name live-user-provider-02 --add-host 'live.nacos.com:175.178.130.183' --add-host 'cloud.db:175.178.130.183' --add-host 'live.rmq.com:175.178.130.183' -e TZ=America/Toronto registry.baidubce.com/live-test/live-user-provider-docker:1.0.2
+
+================
+
+- docker-maven-plugin fabric8
+  https://dandelioncloud.cn/article/details/1527085260529745921/
