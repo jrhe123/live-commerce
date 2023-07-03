@@ -2,7 +2,7 @@
 
 Live commerce platform
 
-## Debugger
+## Debugger (check resource cpu, ram, etc.. & dead lock)
 
 #### How to run it
 
