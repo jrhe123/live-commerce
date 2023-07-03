@@ -9,7 +9,7 @@
 
 - brew install socat # 安装 socat
 
-# 将 unix socket 代理到 tcp 端口
+# unix socket -> tcp port
 
 - nohup socat TCP-LISTEN:2375,range=127.0.0.1/32,reuseaddr,fork UNIX-CLIENT:/var/run/docker.sock &> /dev/null &
 
@@ -17,7 +17,7 @@
 
 - socat TCP-LISTEN:2376,reuseaddr,fork,bind=127.0.0.1 UNIX-CLIENT:/var/run/docker.sock
 
-# 设置环境变量
+# set env variable
 
 - export DOCKER_HOST=tcp://127.0.0.1:2375
 
