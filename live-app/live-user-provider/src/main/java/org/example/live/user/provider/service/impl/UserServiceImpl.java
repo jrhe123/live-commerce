@@ -14,7 +14,7 @@ import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.MQProducer;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.exception.RemotingException;
-import org.example.live.common.interfaces.ConvertBeanUtils;
+import org.example.live.common.interfaces.utils.ConvertBeanUtils;
 import org.example.live.framework.redis.starter.key.UserProviderCacheKeyBuilder;
 import org.example.live.user.contants.CacheAsyncDeleteCode;
 import org.example.live.user.contants.UserProviderTopicNames;
