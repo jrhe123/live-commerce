@@ -1,4 +1,4 @@
-import { SxProps, TextField, Theme } from '@mui/material'
+import { SxProps, TextField, Theme, InputAdornment } from '@mui/material'
 import React from 'react'
 // react hook form
 import { Controller } from 'react-hook-form'
@@ -15,6 +15,7 @@ export interface FormInputProps {
   multiline?: boolean
   disabled?: boolean
   variant?: 'outlined' | 'filled' | 'standard'
+  iconEnd?: React.ReactNode
 }
 
 export const FormTextField = ({
@@ -28,6 +29,7 @@ export const FormTextField = ({
   multiline,
   disabled,
   variant,
+  iconEnd,
 }: FormInputProps) => (
   <Controller
     name={name}
@@ -47,6 +49,10 @@ export const FormTextField = ({
         rows={rows}
         multiline={multiline}
         disabled={disabled}
+        InputProps={{
+          endAdornment:
+            iconEnd != null ? <InputAdornment position="end">{iconEnd}</InputAdornment> : null,
+        }}
       />
     )}
   />

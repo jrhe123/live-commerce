@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
 import { Icon } from '@iconify/react'
-import { Box, Button, Drawer, IconButton, Typography } from '@mui/material'
+import Search from '@mui/icons-material/Search'
+import { Box, Button, Drawer, IconButton, Typography, Modal } from '@mui/material'
 import AppBar from '@mui/material/AppBar'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -25,6 +26,8 @@ type SearchFormInput = {
 
 const Header = (props: HeaderFormProps) => {
   const navigate = useNavigate()
+  const [open, setOpen] = useState<boolean>(false)
+
   const { pathname } = useLocation()
   const { width } = useWindowSize()
   const isMobile = width <= BREAK_POINT
@@ -44,7 +47,7 @@ const Header = (props: HeaderFormProps) => {
     defaultValues,
     resolver: yupResolver(newPostValidationSchema),
   })
-  const { handleSubmit, reset, control } = methods
+  const { handleSubmit, reset, control, formState } = methods
 
   return (
     <>
@@ -70,7 +73,11 @@ const Header = (props: HeaderFormProps) => {
             justifyContent: 'center',
           }}
         >
-          <IconButton onClick={() => {}}>
+          <IconButton
+            onClick={() => {
+              setOpen(true)
+            }}
+          >
             <Icon icon={'teenyicons:users-solid'} style={{ fontSize: 21 }} />
           </IconButton>
         </Box>
@@ -279,11 +286,68 @@ const Header = (props: HeaderFormProps) => {
                   },
                 }}
                 type={'text'}
+                iconEnd={
+                  formState.isDirty ? <Search sx={{ fontSize: 15, cursor: 'pointer' }} /> : null
+                }
               />
             </Box>
           </Box>
         </Box>
       </AppBar>
+      {/* popup modal */}
+      <Modal
+        open={open}
+        onClose={() => {
+          setOpen(false)
+        }}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            display: 'flex',
+            width: '100vw',
+            height: '100vh',
+            backdropFilter: 'blur(3px)',
+          }}
+        >
+          <Box
+            sx={{
+              background: '#fff',
+              width: '400px',
+              padding: '18px',
+            }}
+          >
+            <Typography variant="subtitle1" component="div" sx={{ fontWeight: 'bold', mb: '48px' }}>
+              Are you sure?
+            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+              <Box sx={{ marginRight: '12px' }}>
+                <Button
+                  color={'secondary'}
+                  variant="contained"
+                  onClick={() => {
+                    setOpen(false)
+                  }}
+                >
+                  <Typography variant="subtitle2" component="div">
+                    Cancel
+                  </Typography>
+                </Button>
+              </Box>
+              <Box>
+                <Button color={'primary'} variant="contained" onClick={() => {}}>
+                  <Typography variant="subtitle2" component="div">
+                    Confirm
+                  </Typography>
+                </Button>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </Modal>
       {/* page content outlet */}
       <Box
         sx={{
