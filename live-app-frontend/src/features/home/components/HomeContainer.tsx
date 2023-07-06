@@ -14,7 +14,7 @@ export const HomeContainer = () => {
   const { width } = useWindowSize()
   const isMobile = width <= BREAK_POINT
 
-  return <div>123</div>
+  return <div>this is home page</div>
 
   // return (
   //   <Box

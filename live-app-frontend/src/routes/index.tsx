@@ -13,7 +13,7 @@ const AppRoutes = () => (
     <Suspense fallback={<div />}>
       <Routes>
         <Route element={<Layout />}>
-          <Route element={<Header />}>
+          <Route element={<Header onSubmitClick={() => {}} />}>
             {/* main tab */}
             <Route path="/" element={<HomePage />} />
           </Route>

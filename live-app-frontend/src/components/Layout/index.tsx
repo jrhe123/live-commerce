@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-import Footer from 'components/Footer'
+// import Footer from 'components/Footer'
 
 const Layout = () => {
   const theme = useMemo(
@@ -39,7 +39,7 @@ const Layout = () => {
   return (
     <Box
       sx={{
-        bgcolor: '#FFF',
+        bgcolor: '#fafafa',
         height: '100vh',
         position: 'relative',
       }}
@@ -47,13 +47,11 @@ const Layout = () => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <main>
-          <Box sx={{ pb: '200px' }}>
-            <Outlet />
-          </Box>
+          <Outlet />
         </main>
       </ThemeProvider>
       <ToastContainer draggable pauseOnHover />
-      <Box
+      {/* <Box
         sx={{
           position: 'fixed',
           bottom: 0,
@@ -64,7 +62,7 @@ const Layout = () => {
         }}
       >
         <Footer />
-      </Box>
+      </Box> */}
     </Box>
   )
 }

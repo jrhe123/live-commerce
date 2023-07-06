@@ -1,493 +1,288 @@
-import CloseIcon from '@mui/icons-material/Close'
-import MenuIcon from '@mui/icons-material/Menu'
+import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
+import { Icon } from '@iconify/react'
 import { Box, Button, Drawer, IconButton, Typography } from '@mui/material'
 import AppBar from '@mui/material/AppBar'
 import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom'
+import * as Yup from 'yup'
 
-import { useScrollPosition } from 'hooks/useScrollPosition'
+import LogoImage from 'assets/images/livingroom.jpg'
 import useWindowSize from 'hooks/useWindowSize'
+import { FormTextField } from 'libs/ui/components/FormTextField'
 
-const LOGO_BAR_HEIGHT = 190
-const NAV_BAR_HEIGHT = 25
-const FOOTER_HEIGHT = 42
+const NAV_BAR_HEIGHT = 72
 const BREAK_POINT = 600
-const BUTTON_SIZE = 60
-const SM_BUTTON_SIZE = 42
 
-const Header = () => {
+type HeaderFormProps = {
+  defaultValues?: SearchFormInput
+  onSubmitClick(data: SearchFormInput): void
+}
+
+type SearchFormInput = {
+  title: string
+}
+
+const Header = (props: HeaderFormProps) => {
   const navigate = useNavigate()
-  const [open, setOpen] = useState<boolean>(false)
-  const [collapse, setCollapse] = useState<boolean>(true)
-  const [miniHeader, setMiniHeader] = useState<boolean>(false)
   const { pathname } = useLocation()
   const { width } = useWindowSize()
   const isMobile = width <= BREAK_POINT
 
-  useScrollPosition(({ prevPos, currPos }) => {
-    if (currPos.y < 0) {
-      setMiniHeader(true)
-    } else {
-      setMiniHeader(false)
-    }
+  const {
+    defaultValues = {
+      title: '',
+    },
+    onSubmitClick,
+  } = props
+
+  const newPostValidationSchema = Yup.object().shape({
+    title: Yup.string().required('title is required'),
   })
 
-  let isHome = true
-  let isAbout = false
-  let isContact = false
-  if (pathname.includes('about')) {
-    isHome = false
-    isAbout = true
-  } else if (pathname.includes('contact')) {
-    isHome = false
-    isContact = true
-  }
+  const methods = useForm<SearchFormInput>({
+    defaultValues,
+    resolver: yupResolver(newPostValidationSchema),
+  })
+  const { handleSubmit, reset, control } = methods
 
   return (
     <>
-      {isMobile && (
-        <Box
-          sx={{
-            position: 'relative',
-          }}
-        >
-          <Drawer
-            anchor={'left'}
-            open={open}
-            onClose={() => {
-              setOpen(false)
-            }}
-          >
-            <Box
-              sx={{
-                mb: '24px',
-                mt: '60px',
-                width: '100vw',
-              }}
-            >
-              <Typography
-                component="div"
-                sx={{
-                  fontSize: '18px',
-                  color: isAbout ? '#fa708a' : '#98bf71',
-                  fontFamily: 'Roboto',
-                  fontWeight: isAbout ? 'bold' : 200,
-                  textAlign: 'center',
-                  cursor: 'pointer',
-                }}
-                onClick={() => {
-                  setOpen(false)
-                  if (isAbout) return
-                  navigate('/about')
-                }}
-              >
-                About
-              </Typography>
-            </Box>
-            <Box sx={{ mb: '24px' }}>
-              <Typography
-                component="div"
-                sx={{
-                  fontSize: '18px',
-                  color: isHome ? '#fa708a' : '#98bf71',
-                  fontFamily: 'Roboto',
-                  fontWeight: isHome ? 'bold' : 200,
-                  textAlign: 'center',
-                  cursor: 'pointer',
-                }}
-                onClick={() => {
-                  setOpen(false)
-                  if (pathname !== '/') {
-                    navigate('/')
-                  }
-                }}
-              >
-                <a
-                  onClick={e => {
-                    e.stopPropagation()
-                    setCollapse(!collapse)
-                  }}
-                >
-                  {!collapse ? '—' : '+'}
-                </a>
-                &nbsp;&nbsp;&nbsp;&nbsp;Work
-              </Typography>
-            </Box>
-            {!collapse && (
-              <>
-                <Box sx={{ mb: '24px' }}>
-                  <Typography
-                    component="div"
-                    sx={{
-                      fontSize: '14px',
-                      color: pathname === '/thesis' ? '#fa708a' : '#98bf71',
-                      fontFamily: 'Roboto',
-                      fontWeight: pathname === '/thesis' ? 'bold' : 200,
-                      textAlign: 'center',
-                      cursor: 'pointer',
-                    }}
-                    onClick={() => {
-                      setOpen(false)
-                      if (pathname !== '/thesis') {
-                        navigate('/thesis')
-                      }
-                    }}
-                  >
-                    Thesis
-                  </Typography>
-                </Box>
-                <Box sx={{ mb: '24px' }}>
-                  <Typography
-                    component="div"
-                    sx={{
-                      fontSize: '14px',
-                      color: pathname === '/editorial' ? '#fa708a' : '#98bf71',
-                      fontFamily: 'Roboto',
-                      fontWeight: pathname === '/editorial' ? 'bold' : 200,
-                      textAlign: 'center',
-                      cursor: 'pointer',
-                    }}
-                    onClick={() => {
-                      setOpen(false)
-                      if (pathname !== '/editorial') {
-                        navigate('/editorial')
-                      }
-                    }}
-                  >
-                    Illustrations
-                  </Typography>
-                </Box>
-                <Box sx={{ mb: '24px' }}>
-                  <Typography
-                    component="div"
-                    sx={{
-                      fontSize: '14px',
-                      color: pathname === '/portrait' ? '#fa708a' : '#98bf71',
-                      fontFamily: 'Roboto',
-                      fontWeight: pathname === '/portrait' ? 'bold' : 200,
-                      textAlign: 'center',
-                      cursor: 'pointer',
-                    }}
-                    onClick={() => {
-                      setOpen(false)
-                      if (pathname !== '/portrait') {
-                        navigate('/portrait')
-                      }
-                    }}
-                  >
-                    Portrait
-                  </Typography>
-                </Box>
-                <Box sx={{ mb: '24px' }}>
-                  <Typography
-                    component="div"
-                    sx={{
-                      fontSize: '14px',
-                      color: pathname === '/personal' ? '#fa708a' : '#98bf71',
-                      fontFamily: 'Roboto',
-                      fontWeight: pathname === '/personal' ? 'bold' : 200,
-                      textAlign: 'center',
-                      cursor: 'pointer',
-                    }}
-                    onClick={() => {
-                      setOpen(false)
-                      if (pathname !== '/personal') {
-                        navigate('/personal')
-                      }
-                    }}
-                  >
-                    Personal
-                  </Typography>
-                </Box>
-              </>
-            )}
-            <Box>
-              <Typography
-                component="div"
-                sx={{
-                  fontSize: '18px',
-                  color: isContact ? '#fa708a' : '#98bf71',
-                  fontFamily: 'Roboto',
-                  fontWeight: isContact ? 'bold' : 200,
-                  textAlign: 'center',
-                  cursor: 'pointer',
-                }}
-                onClick={() => {
-                  setOpen(false)
-                  if (isContact) return
-                  navigate('/contact')
-                }}
-              >
-                Contact
-              </Typography>
-            </Box>
-            {open && (
-              <Box
-                sx={{
-                  position: 'absolute',
-                  right: '6px',
-                  top: '6px',
-                  zIndex: 1,
-                }}
-              >
-                <IconButton
-                  onClick={() => {
-                    setOpen(false)
-                  }}
-                  sx={{
-                    padding: '4px',
-                  }}
-                >
-                  <Box
-                    sx={{
-                      width: `${SM_BUTTON_SIZE}px`,
-                      height: `${SM_BUTTON_SIZE}px`,
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <CloseIcon
-                      sx={{
-                        color: '#98bf71',
-                      }}
-                      fontSize={'medium'}
-                    />
-                  </Box>
-                </IconButton>
-              </Box>
-            )}
-          </Drawer>
-        </Box>
-      )}
       <AppBar
-        position={isMobile ? 'relative' : 'sticky'}
+        position="sticky"
         sx={{
           background: 'white',
+          position: 'relative',
         }}
         elevation={0}
       >
-        {/* logo bar */}
+        {/* right side login */}
         <Box
           sx={{
-            padding: '12px',
+            position: 'absolute',
+            right: 0,
+            top: 0,
+            zIndex: 1,
+            height: `${NAV_BAR_HEIGHT}px`,
+            width: `${NAV_BAR_HEIGHT}px`,
             display: 'flex',
-            flexDirection: 'column',
             alignItems: 'center',
-            maxHeight: `${LOGO_BAR_HEIGHT}px`,
+            justifyContent: 'center',
           }}
-          className={miniHeader ? 'animate-height active' : 'animate-height'}
         >
-          <Link to={'/'}>
-            {/* <Box
-              component="img"
-              sx={{
-                width: '69px',
-                cursor: 'pointer',
-                display: 'block',
-              }}
-              alt={'yuting illustration'}
-              src={LogoImage}
-            /> */}
-            logo
-          </Link>
-          {!miniHeader && (
-            <Box className={'fade-in'}>
-              <Box
-                sx={{
-                  borderBottom: '1px solid #c2c2c2',
-                  paddingLeft: '48px',
-                  paddingRight: '48px',
-                }}
-              >
-                <Typography
-                  component="div"
-                  sx={{
-                    fontSize: '30px',
-                    color: '#2c2c2b',
-                    fontFamily: 'Roboto',
-                    fontWeight: 200,
-                  }}
-                >
-                  Yuting Zheng
-                </Typography>
-              </Box>
-              <Box sx={{ mt: '9px' }}>
-                <Typography
-                  component="div"
-                  sx={{
-                    fontSize: '15px',
-                    color: '#2c2c2b',
-                    fontFamily: 'Roboto',
-                    fontWeight: 200,
-                    textAlign: 'center',
-                  }}
-                >
-                  Illustrator
-                </Typography>
-              </Box>
-            </Box>
-          )}
+          <IconButton onClick={() => {}}>
+            <Icon icon={'teenyicons:users-solid'} style={{ fontSize: 21 }} />
+          </IconButton>
         </Box>
-        {/* burger button */}
-        {isMobile && (
-          <>
-            <Box
-              sx={{
-                mt: '30px',
-                mb: '12px',
-                display: 'flex',
-                justifyContent: 'center',
-              }}
-            >
-              <IconButton
-                onClick={() => {
-                  setOpen(true)
-                }}
-                sx={{
-                  padding: '8px',
-                }}
-              >
-                <Box
-                  sx={{
-                    width: `${BUTTON_SIZE}px`,
-                    height: `${BUTTON_SIZE}px`,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    border: '1px solid #ed9e93',
-                    borderRadius: '50%',
-                  }}
-                >
-                  <MenuIcon
-                    sx={{
-                      color: '#ed9e93',
-                    }}
-                    fontSize={'large'}
-                  />
-                </Box>
-              </IconButton>
-            </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: '18px' }}>
-              <Box
-                sx={{
-                  height: '8px',
-                  width: '80%',
-                  background: '#FAF7F7',
-                  borderRadius: '6px',
-                }}
-              />
-            </Box>
-          </>
-        )}
         {/* nav bar */}
-        {!isMobile && (
+        <Box
+          sx={{
+            height: `${NAV_BAR_HEIGHT}px`,
+            margin: '0 auto',
+          }}
+        >
           <Box
             sx={{
-              borderTop: '1px solid #000',
-              borderBottom: '1px solid #000',
-              height: `${NAV_BAR_HEIGHT}px`,
-              background: '#FAF7F7',
-              boxSizing: 'border-box',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              height: '100%',
+              maxWidth: BREAK_POINT,
             }}
           >
+            {/* livestream */}
             <Box
               sx={{
+                flex: 1,
                 display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-around',
+                justifyContent: 'center',
+                alignItems: 'center',
                 height: '100%',
               }}
             >
-              <Box
-                sx={{
-                  flex: 1,
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: '100%',
+              <Link to={'/'}>
+                <Box
+                  component="img"
+                  sx={{
+                    width: '30px',
+                    height: '27px',
+                    cursor: 'pointer',
+                    display: 'block',
+                  }}
+                  alt={'live stream'}
+                  src={LogoImage}
+                />
+              </Link>
+              <Button
+                sx={{ height: '100%', paddingLeft: '24px', paddingRight: '24px' }}
+                onClick={() => {
+                  navigate('/')
                 }}
               >
-                <Button
-                  sx={{ height: '100%', paddingLeft: '24px', paddingRight: '24px' }}
-                  onClick={() => {
-                    navigate('/about')
+                <Typography
+                  component="div"
+                  sx={{
+                    fontSize: '13px',
+                    color: '#2c2c2b',
+                    fontFamily: 'Roboto',
+                    cursor: 'pointer',
                   }}
                 >
-                  <Typography
-                    component="div"
-                    sx={{
-                      fontSize: '13px',
-                      color: '#2c2c2b',
-                      fontFamily: 'Roboto',
-                      fontWeight: 200,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    ABOUT
-                  </Typography>
-                </Button>
-              </Box>
-              <Box
-                sx={{
-                  flex: 1,
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: '100%',
+                  Livestream
+                </Typography>
+              </Button>
+            </Box>
+            {/* pk */}
+            <Box
+              sx={{
+                flex: 1,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100%',
+              }}
+            >
+              <Button
+                sx={{ height: '100%', paddingLeft: '24px', paddingRight: '24px' }}
+                onClick={() => {
+                  navigate('/')
                 }}
               >
-                <Button
-                  sx={{ height: '100%', paddingLeft: '24px', paddingRight: '24px' }}
-                  onClick={() => {
-                    navigate('/')
+                <Typography
+                  component="div"
+                  sx={{
+                    fontSize: '13px',
+                    color: '#2c2c2b',
+                    fontFamily: 'Roboto',
                   }}
                 >
-                  <Typography
-                    component="div"
-                    sx={{
-                      fontSize: '13px',
-                      color: '#2c2c2b',
-                      fontFamily: 'Roboto',
-                      fontWeight: 200,
-                    }}
-                  >
-                    WORK
-                  </Typography>
-                </Button>
-              </Box>
-              <Box
-                sx={{
-                  flex: 1,
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: '100%',
+                  PK
+                </Typography>
+              </Button>
+            </Box>
+            {/* shop */}
+            <Box
+              sx={{
+                flex: 1,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100%',
+              }}
+            >
+              <Button
+                sx={{ height: '100%', paddingLeft: '24px', paddingRight: '24px' }}
+                onClick={() => {
+                  navigate('/')
                 }}
               >
-                <Button
-                  sx={{ height: '100%', paddingLeft: '24px', paddingRight: '24px' }}
-                  onClick={() => {
-                    navigate('/contact')
+                <Typography
+                  component="div"
+                  sx={{
+                    fontSize: '13px',
+                    color: '#2c2c2b',
+                    fontFamily: 'Roboto',
+                    cursor: 'pointer',
                   }}
                 >
-                  <Typography
-                    component="div"
-                    sx={{
-                      fontSize: '13px',
-                      color: '#2c2c2b',
-                      fontFamily: 'Roboto',
-                      fontWeight: 200,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    CONTACT
-                  </Typography>
-                </Button>
-              </Box>
+                  Shop
+                </Typography>
+              </Button>
+            </Box>
+            {/* sport */}
+            <Box
+              sx={{
+                flex: 1,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100%',
+              }}
+            >
+              <Button
+                sx={{ height: '100%', paddingLeft: '24px', paddingRight: '24px' }}
+                onClick={() => {
+                  navigate('/')
+                }}
+              >
+                <Typography
+                  component="div"
+                  sx={{
+                    fontSize: '13px',
+                    color: '#2c2c2b',
+                    fontFamily: 'Roboto',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Sport
+                </Typography>
+              </Button>
+            </Box>
+            {/* game */}
+            <Box
+              sx={{
+                flex: 1,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100%',
+              }}
+            >
+              <Button
+                sx={{ height: '100%', paddingLeft: '24px', paddingRight: '24px' }}
+                onClick={() => {
+                  navigate('/')
+                }}
+              >
+                <Typography
+                  component="div"
+                  sx={{
+                    fontSize: '13px',
+                    color: '#2c2c2b',
+                    fontFamily: 'Roboto',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Games
+                </Typography>
+              </Button>
+            </Box>
+            {/* search bar */}
+            <Box
+              sx={{
+                flex: 1,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginLeft: '30px',
+              }}
+            >
+              <FormTextField
+                name="title"
+                label={'Search..'}
+                control={control}
+                sx={{
+                  background: '#f0f0f0',
+                  color: '#2c2c2b',
+                  borderRadius: '12px',
+                  width: 120,
+                  '& fieldset': { border: 'none' },
+                  '& label': {
+                    fontSize: '0.8rem;',
+                    lineHeight: 1.57,
+                  },
+                  '.MuiInputBase-input': {
+                    fontSize: '0.8rem',
+                    '&:-webkit-autofill': {
+                      borderRadius: '12px',
+                    },
+                  },
+                }}
+                type={'text'}
+              />
             </Box>
           </Box>
-        )}
+        </Box>
       </AppBar>
       {/* page content outlet */}
       <Box
@@ -495,7 +290,6 @@ const Header = () => {
           position: 'relative',
           overflowY: 'auto',
           overflowX: 'hidden',
-          paddingBottom: `${FOOTER_HEIGHT}px`,
         }}
       >
         <Outlet />
