@@ -20,9 +20,9 @@ const Layout = () => {
         palette: {
           mode: 'light',
           primary: {
-            light: '#c2c2c2',
-            main: '#c2c2c2',
-            dark: '#c2c2c2',
+            light: '#fbcb32',
+            main: '#fbcb32',
+            dark: '#fbcb32',
             contrastText: '#fff',
           },
           secondary: {

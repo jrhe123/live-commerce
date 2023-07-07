@@ -1,16 +1,14 @@
-import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
 import { Icon } from '@iconify/react'
-import Search from '@mui/icons-material/Search'
 import { Box, Button, Drawer, IconButton, Typography, Modal } from '@mui/material'
 import AppBar from '@mui/material/AppBar'
 import React, { useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom'
-import * as Yup from 'yup'
 
 import LogoImage from 'assets/images/livingroom.jpg'
 import useWindowSize from 'hooks/useWindowSize'
-import { FormTextField } from 'libs/ui/components/FormTextField'
+
+import SearchForm from './SearchForm'
+import SigninForm from './SigninForm'
 
 const NAV_BAR_HEIGHT = 72
 const BREAK_POINT = 600
@@ -32,23 +30,6 @@ const Header = (props: HeaderFormProps) => {
   const { width } = useWindowSize()
   const isMobile = width <= BREAK_POINT
 
-  const {
-    defaultValues = {
-      title: '',
-    },
-    onSubmitClick,
-  } = props
-
-  const newPostValidationSchema = Yup.object().shape({
-    title: Yup.string().required('title is required'),
-  })
-
-  const methods = useForm<SearchFormInput>({
-    defaultValues,
-    resolver: yupResolver(newPostValidationSchema),
-  })
-  const { handleSubmit, reset, control, formState } = methods
-
   return (
     <>
       <AppBar
@@ -59,28 +40,6 @@ const Header = (props: HeaderFormProps) => {
         }}
         elevation={0}
       >
-        {/* right side login */}
-        <Box
-          sx={{
-            position: 'absolute',
-            right: 0,
-            top: 0,
-            zIndex: 1,
-            height: `${NAV_BAR_HEIGHT}px`,
-            width: `${NAV_BAR_HEIGHT}px`,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <IconButton
-            onClick={() => {
-              setOpen(true)
-            }}
-          >
-            <Icon icon={'teenyicons:users-solid'} style={{ fontSize: 21 }} />
-          </IconButton>
-        </Box>
         {/* nav bar */}
         <Box
           sx={{
@@ -261,48 +220,38 @@ const Header = (props: HeaderFormProps) => {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                marginLeft: '30px',
+                marginLeft: '24px',
               }}
             >
-              <FormTextField
-                name="title"
-                label={'Search..'}
-                control={control}
-                sx={{
-                  background: '#f0f0f0',
-                  color: '#2c2c2b',
-                  borderRadius: '12px',
-                  width: 120,
-                  '& fieldset': { border: 'none' },
-                  '& label': {
-                    fontSize: '0.8rem;',
-                    lineHeight: 1.57,
-                  },
-                  '.MuiInputBase-input': {
-                    fontSize: '0.8rem',
-                    '&:-webkit-autofill': {
-                      borderRadius: '12px',
-                    },
-                  },
-                }}
-                type={'text'}
-                iconEnd={
-                  formState.isDirty ? <Search sx={{ fontSize: 15, cursor: 'pointer' }} /> : null
-                }
-              />
+              <SearchForm onSubmitClick={() => {}} />
             </Box>
           </Box>
         </Box>
+        {/* right side login */}
+        <Box
+          sx={{
+            position: 'absolute',
+            right: 0,
+            top: 0,
+            zIndex: 1,
+            height: `${NAV_BAR_HEIGHT}px`,
+            width: `${NAV_BAR_HEIGHT}px`,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <IconButton
+            onClick={() => {
+              setOpen(true)
+            }}
+          >
+            <Icon icon={'arcticons:bigo-live'} style={{ fontSize: 36 }} />
+          </IconButton>
+        </Box>
       </AppBar>
       {/* popup modal */}
-      <Modal
-        open={open}
-        onClose={() => {
-          setOpen(false)
-        }}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+      <Modal open={open} aria-labelledby="signin-modal" aria-describedby="user-signin">
         <Box
           sx={{
             justifyContent: 'center',
@@ -318,33 +267,53 @@ const Header = (props: HeaderFormProps) => {
               background: '#fff',
               width: '400px',
               padding: '18px',
+              position: 'relative',
             }}
           >
-            <Typography variant="subtitle1" component="div" sx={{ fontWeight: 'bold', mb: '48px' }}>
-              Are you sure?
-            </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-              <Box sx={{ marginRight: '12px' }}>
-                <Button
-                  color={'secondary'}
-                  variant="contained"
-                  onClick={() => {
-                    setOpen(false)
-                  }}
-                >
-                  <Typography variant="subtitle2" component="div">
-                    Cancel
-                  </Typography>
-                </Button>
-              </Box>
-              <Box>
-                <Button color={'primary'} variant="contained" onClick={() => {}}>
-                  <Typography variant="subtitle2" component="div">
-                    Confirm
-                  </Typography>
-                </Button>
-              </Box>
+            <Box
+              sx={{
+                position: 'absolute',
+                right: 6,
+                top: 6,
+                zIndex: 1,
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+              }}
+            >
+              <IconButton
+                onClick={() => {
+                  setOpen(false)
+                }}
+                sx={{ padding: '3px' }}
+              >
+                <Icon icon={'material-symbols:close'} style={{ fontSize: 21 }} />
+              </IconButton>
             </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginBottom: '24px',
+              }}
+            >
+              <Box
+                component="img"
+                sx={{
+                  width: '30px',
+                  height: '27px',
+                  display: 'block',
+                  marginRight: '12px',
+                }}
+                alt={'live stream'}
+                src={LogoImage}
+              />
+              <Typography variant="subtitle1" component="div" sx={{ fontWeight: 'bold' }}>
+                Sign In
+              </Typography>
+            </Box>
+            <SigninForm onSubmitClick={() => {}} />
           </Box>
         </Box>
       </Modal>
