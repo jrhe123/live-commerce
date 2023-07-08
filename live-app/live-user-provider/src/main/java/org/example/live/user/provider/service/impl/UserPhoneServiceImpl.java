@@ -1,8 +1,11 @@
 package org.example.live.user.provider.service.impl;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.example.live.common.interfaces.enums.CommonStatusEnum;
@@ -22,6 +25,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.nacos.api.utils.StringUtils;
+import com.alibaba.nacos.client.naming.utils.CollectionUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
 import jakarta.annotation.Resource;
@@ -159,10 +163,55 @@ public class UserPhoneServiceImpl implements IUserPhoneService {
 		return ConvertBeanUtils.convert(selectOne, UserPhoneDTO.class);
 	}
 
+	/**
+	 * get all the user-phone(s) by userId
+	 */
 	@Override
 	public List<UserPhoneDTO> queryByUserId(Long userId) {
-		// TODO Auto-generated method stub
-		return null;
+		if (userId == null || userId < 10000) {
+			return Collections.emptyList();
+		}
+		
+		String redisKey = userProviderCacheKeyBuilder.buildUserPhoneListKey(userId);
+		List<Object> userPhoneList = redisTemplate.opsForList().range(redisKey, 0, -1);
+		
+		if (!CollectionUtils.isEmpty(userPhoneList)) {
+			// "cache breakdown"
+			// check if the first object is null cache we set
+			UserPhoneDTO userPhoneDTO = (UserPhoneDTO) userPhoneList.get(0);
+			if (userPhoneDTO.getUserId() == null) {
+				return Collections.emptyList();
+			}
+			
+			return userPhoneList.stream().map(x-> (UserPhoneDTO) x)
+					.collect(Collectors.toList());
+		}
+		
+		List<UserPhoneDTO> queryByUserIdFromDB = queryByUserIdFromDB(userId);
+		if(!CollectionUtils.isEmpty(queryByUserIdFromDB)) {
+			
+			redisTemplate.opsForList().leftPushAll(redisKey, userPhoneList);
+			redisTemplate.expire(redisKey, 30, TimeUnit.MINUTES);
+			return queryByUserIdFromDB;
+		}
+		
+		/**
+		 * "cache breakdown"
+		 * -> cache a null list of UserPhoneDTO
+		 */
+		queryByUserIdFromDB = Arrays.asList(new UserPhoneDTO());
+		redisTemplate.opsForList().leftPushAll(redisKey, queryByUserIdFromDB);
+		redisTemplate.expire(redisKey, 30, TimeUnit.MINUTES);
+		return Collections.emptyList();
+	}
+	
+	private List<UserPhoneDTO> queryByUserIdFromDB(Long userId) {
+		LambdaQueryWrapper<UserPhonePO> queryWrapper = new LambdaQueryWrapper<>();
+		queryWrapper.eq(UserPhonePO::getUserId, userId);
+		queryWrapper.eq(UserPhonePO::getStatus, CommonStatusEnum.VALID_STATUS.getCode());
+		List<UserPhonePO> selectList = userPhoneMapper.selectList(queryWrapper);
+		
+		return ConvertBeanUtils.convertList(selectList, UserPhoneDTO.class);
 	}
 
 }

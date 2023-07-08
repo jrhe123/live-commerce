@@ -26,7 +26,7 @@ public interface IUserPhoneRpc {
 	
 	
 	/**
-	 * search user phone(s) by use id
+	 * get all user-phone(s) by use id
 	 * 
 	 * @param userId
 	 * @return

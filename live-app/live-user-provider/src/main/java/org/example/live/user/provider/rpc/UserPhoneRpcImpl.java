@@ -6,26 +6,29 @@ import org.apache.dubbo.config.annotation.DubboService;
 import org.example.live.user.dto.UserLoginDTO;
 import org.example.live.user.dto.UserPhoneDTO;
 import org.example.live.user.interfaces.IUserPhoneRpc;
+import org.example.live.user.provider.service.IUserPhoneService;
+
+import jakarta.annotation.Resource;
 
 @DubboService
 public class UserPhoneRpcImpl implements IUserPhoneRpc {
 
+	@Resource
+	private IUserPhoneService userPhoneService;
+	
 	@Override
 	public UserLoginDTO login(String phone) {
-		// TODO Auto-generated method stub
-		return null;
+		return userPhoneService.login(phone);
 	}
 
 	@Override
 	public UserPhoneDTO queryByPhone(String phone) {
-		// TODO Auto-generated method stub
-		return null;
+		return userPhoneService.queryByPhone(phone);
 	}
 
 	@Override
 	public List<UserPhoneDTO> queryByUserId(Long userId) {
-		// TODO Auto-generated method stub
-		return null;
+		return userPhoneService.queryByUserId(userId);
 	}
 
 }
