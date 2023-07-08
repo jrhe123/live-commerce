@@ -95,7 +95,10 @@ public class UserPhoneServiceImpl implements IUserPhoneService {
 		// 2. create user phone
 		UserPhonePO userPhonePO = new UserPhonePO();
 		userPhonePO.setUserId(userId);
-		userPhonePO.setPhone(phone);
+		
+		String encryptedPhone = DESUtils.encrypt(phone);
+		userPhonePO.setPhone(encryptedPhone);
+		
 		userPhonePO.setStatus(CommonStatusEnum.VALID_STATUS.getCode());
 		userPhoneMapper.insert(userPhonePO);
 		
@@ -124,6 +127,11 @@ public class UserPhoneServiceImpl implements IUserPhoneService {
 		// query from DB
 		userPhoneDTO = queryByPhoneFromDB(phone);
 		if (userPhoneDTO != null) {
+			// decrpt the phone before cache in redis
+			userPhoneDTO.setPhone(
+					DESUtils.decrypt(userPhoneDTO.getPhone())
+					);
+			
 			redisTemplate.opsForValue().set(redisKey, userPhoneDTO, 30, TimeUnit.MINUTES);
 			return userPhoneDTO;
 		}
