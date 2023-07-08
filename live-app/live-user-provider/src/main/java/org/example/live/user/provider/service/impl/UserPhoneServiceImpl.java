@@ -106,6 +106,10 @@ public class UserPhoneServiceImpl implements IUserPhoneService {
 		userPhonePO.setStatus(CommonStatusEnum.VALID_STATUS.getCode());
 		userPhoneMapper.insert(userPhonePO);
 		
+		redisTemplate.delete(
+				userProviderCacheKeyBuilder.buildUserPhoneObjKey(phone)
+				);
+		
 		return UserLoginDTO.loginSuccess(
 				userId, createAndSaveLoginToken(userId));
 	}
@@ -190,7 +194,7 @@ public class UserPhoneServiceImpl implements IUserPhoneService {
 		List<UserPhoneDTO> queryByUserIdFromDB = queryByUserIdFromDB(userId);
 		if(!CollectionUtils.isEmpty(queryByUserIdFromDB)) {
 			
-			redisTemplate.opsForList().leftPushAll(redisKey, userPhoneList);
+			redisTemplate.opsForList().leftPushAll(redisKey, userPhoneList.toArray());
 			redisTemplate.expire(redisKey, 30, TimeUnit.MINUTES);
 			return queryByUserIdFromDB;
 		}
@@ -199,9 +203,8 @@ public class UserPhoneServiceImpl implements IUserPhoneService {
 		 * "cache breakdown"
 		 * -> cache a null list of UserPhoneDTO
 		 */
-		queryByUserIdFromDB = Arrays.asList(new UserPhoneDTO());
-		redisTemplate.opsForList().leftPushAll(redisKey, queryByUserIdFromDB);
-		redisTemplate.expire(redisKey, 30, TimeUnit.MINUTES);
+		redisTemplate.opsForList().leftPush(redisKey, new UserPhoneDTO());
+		redisTemplate.expire(redisKey, 5, TimeUnit.MINUTES);
 		return Collections.emptyList();
 	}
 	
