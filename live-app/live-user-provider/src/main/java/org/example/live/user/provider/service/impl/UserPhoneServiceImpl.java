@@ -8,6 +8,8 @@ import org.example.live.user.provider.dao.mapper.IUserPhoneMapper;
 import org.example.live.user.provider.service.IUserPhoneService;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.nacos.api.utils.StringUtils;
+
 import jakarta.annotation.Resource;
 
 @Service
@@ -19,7 +21,18 @@ public class UserPhoneServiceImpl implements IUserPhoneService {
 
 	@Override
 	public UserLoginDTO login(String phone) {
-		// TODO Auto-generated method stub
+		// 1. phone is required
+		if (StringUtils.isEmpty(phone)) {
+			return null;
+		}
+		
+		// 2. check if it's registered
+		
+		// 3. if it exists, create token & return userId
+		
+		// 4. if not, create user, user phone
+		
+		
 		return null;
 	}
 
