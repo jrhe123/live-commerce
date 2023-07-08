@@ -104,6 +104,40 @@ public class UserPhoneServiceImpl implements IUserPhoneService {
 
 	@Override
 	public UserPhoneDTO queryByPhone(String phone) {
+		if (StringUtils.isEmpty(phone)) {
+			return null;
+		}
+		
+		// check redis cache
+		String redisKey = userProviderCacheKeyBuilder.buildUserPhoneObjKey(phone);
+		UserPhoneDTO userPhoneDTO = (UserPhoneDTO) redisTemplate.opsForValue().get(redisKey);
+		if (userPhoneDTO != null) {
+			// "cache breakdown"
+			// check if it's null cache we set
+			if (userPhoneDTO.getUserId() == null) {
+				return null;
+			}
+			return userPhoneDTO;
+		}
+		
+		// query from DB
+		userPhoneDTO = queryByPhoneFromDB(phone);
+		if (userPhoneDTO != null) {
+			redisTemplate.opsForValue().set(redisKey, userPhoneDTO, 30, TimeUnit.MINUTES);
+			return userPhoneDTO;
+		}
+		
+		/**
+		 * "cache breakdown"
+		 * -> cache a null UserPhoneDTO
+		 */
+		userPhoneDTO = new UserPhoneDTO();
+		redisTemplate.opsForValue().set(redisKey, userPhoneDTO, 5, TimeUnit.MINUTES);
+		
+		return null;
+	}
+	
+	private UserPhoneDTO queryByPhoneFromDB(String phone) {
 		LambdaQueryWrapper<UserPhonePO> queryWrapper = new LambdaQueryWrapper<>();
 		queryWrapper.eq(UserPhonePO::getPhone, phone);
 		queryWrapper.eq(UserPhonePO::getStatus, CommonStatusEnum.VALID_STATUS.getCode());
