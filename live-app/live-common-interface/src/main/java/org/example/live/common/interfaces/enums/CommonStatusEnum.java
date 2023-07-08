@@ -1,11 +1,11 @@
 package org.example.live.common.interfaces.enums;
 
-public enum CommonStatusEum {
+public enum CommonStatusEnum {
 
 	INVALID_STATUS(0, "INVALID"),
 	VALID_STATUS(1, "VALID");
 	
-	CommonStatusEum(int code, String desc){
+	CommonStatusEnum(int code, String desc){
 		this.code = code;
 		this.desc = desc;
 	}
