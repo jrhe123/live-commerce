@@ -273,8 +273,8 @@ const Header = (props: HeaderFormProps) => {
             <Box
               sx={{
                 position: 'absolute',
-                right: 6,
-                top: 6,
+                right: 12,
+                top: 12,
                 zIndex: 1,
                 display: 'flex',
                 flexDirection: 'row',

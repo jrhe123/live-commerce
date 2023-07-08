@@ -6,7 +6,7 @@ stop slave;
 reset slave;
 
 -- 157 is from "show master status;"
-change master to master_host='192.168.12.4',master_port=8808,master_user='test-slave',master_password='test-81710181',master_log_file='mysql-bin.000005',master_log_pos=157;
+change master to master_host='192.168.12.6',master_port=8808,master_user='test-slave',master_password='test-81710181',master_log_file='mysql-bin.000006',master_log_pos=157;
 
 start slave;
 
