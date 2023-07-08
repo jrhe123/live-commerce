@@ -22,6 +22,7 @@ public class CorsConfig {
     private CorsConfiguration buildConfig() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         // session id multiple access
+        // save token into cookie
         corsConfiguration.setAllowCredentials(true);
         // allow hosts
         List<String> allowedOriginPatterns = new ArrayList<>();
