@@ -7,7 +7,9 @@ import org.example.live.framework.redis.starter.key.MsgProviderCacheKeyBuilder;
 import org.example.live.msg.dto.MsgCheckDTO;
 import org.example.live.msg.enums.MsgSendResultEnum;
 import org.example.live.msg.provider.config.ApplicationProperties;
+import org.example.live.msg.provider.config.ThreadPoolManager;
 import org.example.live.msg.provider.dao.mapper.SmsMapper;
+import org.example.live.msg.provider.dao.po.SmsPO;
 import org.example.live.msg.provider.service.ISmsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,21 +60,43 @@ public class SmsServiceImpl implements ISmsService {
 		// 2. save it into Redis
 		redisTemplate.opsForValue().set(codeCacheKeyString, code,
 				60, TimeUnit.SECONDS);
-		// 3. send code
+		// 3. send code in async
+		ThreadPoolManager.commonAsyncPool.execute(() -> {
+			boolean mockSendSms = mockSendSms(phone, code);
+			// 3.1 save it into DB
+			if (mockSendSms) {
+				insertOne(phone, code);
+			}
+		});
 		
-		return null;
+		return MsgSendResultEnum.SEND_SUCCESS;
 	}
 
 	@Override
 	public MsgCheckDTO checkLoginCode(String phone, Integer code) {
-		// TODO Auto-generated method stub
-		return null;
+		if (StringUtils.isBlank(phone) ||
+				code == null ||
+				code < 100000) {
+			return new MsgCheckDTO(false, "invalid params");
+		}
+		String codeCacheKeyString = msgProviderCacheKeyBuilder.buildSmsLoginCodeKey(phone);
+		Integer cachedCode = (Integer) redisTemplate.opsForValue().get(codeCacheKeyString);
+		if (cachedCode == null || code < 100000) {
+			return new MsgCheckDTO(false, "verify code is expired");
+		}
+		if (cachedCode.equals(code)) {
+			redisTemplate.delete(codeCacheKeyString);
+			return new MsgCheckDTO(true, "success");
+		}
+		return new MsgCheckDTO(false, "failed");
 	}
 
 	@Override
 	public void insertOne(String phone, Integer code) {
-		// TODO Auto-generated method stub
-		
+		SmsPO smsPO = new SmsPO();
+		smsPO.setCode(code);
+		smsPO.setPhone(phone);
+		smsMapper.insert(smsPO);
 	}
 
 	
