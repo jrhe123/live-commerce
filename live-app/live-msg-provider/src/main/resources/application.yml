@@ -1,14 +1,17 @@
 #spring:
 #  application:
-#    name: live-user-provider
+#    name: live-msg-provider
 #  datasource:
-#    driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
-#    url: jdbc:shardingsphere:classpath:db-sharding.yaml
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    #MySQL master addr (we're not using sharding yet')
+#    url: jdbc:mysql://localhost:8808/live_msg?useUnicode=true&characterEncoding=utf8
+#    username: root
+#    password: root
 #    hikari:
 #      pool-name: user-pool
-#      minimum-idle: 15
+#      minimum-idle: 10
 #      idle-timeout: 60000
-#      maximum-pool-size: 300
+#      maximum-pool-size: 200
 #      #connection-init-sql: select 1
 #      connection-timeout: 4000
 #      max-lifetime: 60000
@@ -18,11 +21,6 @@
 #      host: 127.0.0.1
 #      password: 123456
 #      lettuce:
-#        pool:
-#          min-idle: 10
-#          max-active: 50
-#          max-idle: 20
-#        // stress test
 #        pool:
 #          min-idle: 10
 #          max-active: 100
@@ -51,18 +49,18 @@
 #    dispatcher: execution
 #    threads: 500
 #    accepts: 500
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
