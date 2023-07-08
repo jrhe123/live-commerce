@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.example.live.common.interfaces.enums.CommonStatusEnum;
 import org.example.live.common.interfaces.utils.ConvertBeanUtils;
+import org.example.live.common.interfaces.utils.DESUtils;
 import org.example.live.framework.redis.starter.key.UserProviderCacheKeyBuilder;
 import org.example.live.id.generate.enums.IdTypeEnum;
 import org.example.live.id.generate.interfaces.IdGenerateRpc;
@@ -139,7 +140,10 @@ public class UserPhoneServiceImpl implements IUserPhoneService {
 	
 	private UserPhoneDTO queryByPhoneFromDB(String phone) {
 		LambdaQueryWrapper<UserPhonePO> queryWrapper = new LambdaQueryWrapper<>();
-		queryWrapper.eq(UserPhonePO::getPhone, phone);
+		
+		String decryptedPhone = DESUtils.decrypt(phone);
+		queryWrapper.eq(UserPhonePO::getPhone, decryptedPhone);
+		
 		queryWrapper.eq(UserPhonePO::getStatus, CommonStatusEnum.VALID_STATUS.getCode());
 		queryWrapper.last("limit 1");
 		UserPhonePO selectOne = userPhoneMapper.selectOne(queryWrapper);
