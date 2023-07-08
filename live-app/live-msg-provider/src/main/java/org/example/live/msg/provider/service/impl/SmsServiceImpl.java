@@ -14,11 +14,13 @@ import org.example.live.msg.provider.service.ISmsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
 
 import com.alibaba.nacos.api.utils.StringUtils;
 
 import jakarta.annotation.Resource;
 
+@Service
 public class SmsServiceImpl implements ISmsService {
 	
 	private static Logger logger = LoggerFactory.getLogger(SmsServiceImpl.class);
@@ -63,6 +65,7 @@ public class SmsServiceImpl implements ISmsService {
 		// 3. send code in async
 		ThreadPoolManager.commonAsyncPool.execute(() -> {
 			boolean mockSendSms = mockSendSms(phone, code);
+			
 			// 3.1 save it into DB
 			if (mockSendSms) {
 				insertOne(phone, code);
@@ -74,13 +77,14 @@ public class SmsServiceImpl implements ISmsService {
 
 	@Override
 	public MsgCheckDTO checkLoginCode(String phone, Integer code) {
-		if (StringUtils.isBlank(phone) ||
+		if (StringUtils.isEmpty(phone) ||
 				code == null ||
 				code < 100000) {
 			return new MsgCheckDTO(false, "invalid params");
 		}
-		String codeCacheKeyString = msgProviderCacheKeyBuilder.buildSmsLoginCodeKey(phone);
+		String codeCacheKeyString = msgProviderCacheKeyBuilder.buildSmsLoginCodeKey(phone);		
 		Integer cachedCode = (Integer) redisTemplate.opsForValue().get(codeCacheKeyString);
+				
 		if (cachedCode == null || code < 100000) {
 			return new MsgCheckDTO(false, "verify code is expired");
 		}
@@ -96,7 +100,7 @@ public class SmsServiceImpl implements ISmsService {
 		SmsPO smsPO = new SmsPO();
 		smsPO.setCode(code);
 		smsPO.setPhone(phone);
-		smsMapper.insert(smsPO);
+		int insert = smsMapper.insert(smsPO);
 	}
 
 	
@@ -118,7 +122,7 @@ public class SmsServiceImpl implements ISmsService {
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		} finally {
-			return false;
+			return true;
 		}
 	}
 	
