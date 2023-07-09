@@ -14,6 +14,7 @@
     <modules>
         <module>live-framework-datasource-starter</module>
         <module>live-framework-redis-starter</module>
+        <module>live-framework-web-starter</module>
     </modules>
 
 </project>
