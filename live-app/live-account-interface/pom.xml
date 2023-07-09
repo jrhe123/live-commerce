@@ -9,5 +9,6 @@
     </parent>
     
     <artifactId>live-account-interface</artifactId>
+    <description>live account interface - token</description>
 
 </project>

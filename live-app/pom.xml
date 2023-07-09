@@ -9,6 +9,9 @@
     <packaging>pom</packaging>
     
     <modules>
+		<module>live-account-interface</module>
+        <module>live-account-provider</module>
+        
 		<module>live-user-provider</module>
         <module>live-user-interface</module>
       	<module>live-api</module>
@@ -19,8 +22,6 @@
         <module>live-gateway</module>
         <module>live-msg-interface</module>
         <module>live-msg-provider</module>
-        <module>live-account-provider</module>
-        <module>live-account-interface</module>
   	</modules>
 
     <properties>

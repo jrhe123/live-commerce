@@ -11,9 +11,11 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient
 public class AccountProviderApplication {
 
+	
 	public static void main(String[] args) {
 		SpringApplication application = new SpringApplication(AccountProviderApplication.class);
 		application.setWebApplicationType(WebApplicationType.NONE);
 		application.run(args);
 	}
 }
+

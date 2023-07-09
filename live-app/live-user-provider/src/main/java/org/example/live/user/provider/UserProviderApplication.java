@@ -33,7 +33,7 @@ public class UserProviderApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		testUserLogin();
+//		testUserLogin();
 	}
 	
 	private void testUserLogin() {

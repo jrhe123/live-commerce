@@ -3,7 +3,7 @@ package org.example.live.gateway.filter;
 import java.util.List;
 
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.example.live.account.interfaces.IAccountTokenRPC;
+import org.example.live.account.interfaces.IAccountTokenRpc;
 import org.example.live.common.interfaces.enums.GatewayHeaderEnum;
 import org.example.live.gateway.properties.GatewayApplicationProperties;
 import org.slf4j.Logger;
@@ -33,7 +33,7 @@ public class AccountCheckFilter implements GlobalFilter, Ordered {
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountCheckFilter.class);
 
     @DubboReference
-    private IAccountTokenRPC accountTokenRPC;
+    private IAccountTokenRpc accountTokenRPC;
     
     @Resource
     private GatewayApplicationProperties gatewayApplicationProperties;
