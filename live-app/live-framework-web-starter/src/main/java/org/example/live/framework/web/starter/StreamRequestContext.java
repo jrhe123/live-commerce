@@ -44,6 +44,17 @@ public class StreamRequestContext {
     //实现父子线程之间的线程本地变量传递
     //A-->threadLocal ("userId",1001)
     //A-->new Thread(B)-->B线程属于A线程的子线程，threadLocal get("userId")
+    
+    /**
+     * 
+     * when thread A new a child thread B,
+     * the InheritableThreadLocalMap will be cloned, 
+     * so thread B is able to use the stored values
+     * 
+     * @author jiaronghe
+     *
+     * @param <T>
+     */
     private static final class InheritableThreadLocalMap<T extends Map<Object, Object>> 
     	extends InheritableThreadLocal<Map<Object, Object>> {
 

@@ -39,6 +39,25 @@ public class HomePageController {
 		 */
 		Long userId = StreamRequestContext.getUserId();
 		
+		 /**
+	     * 
+	     * when thread A new a child thread B,
+	     * the InheritableThreadLocalMap will be cloned, 
+	     * so thread B is able to use the stored values
+	     * 
+	     * e.g.,
+	     * 
+	       new Thread(new Runnable() {
+			
+				@Override
+				public void run() {
+					Long userId2 = StreamRequestContext.getUserId();
+				}
+			}).start();
+	     */
+		
+		
+		
 		System.out.println("!!!!!!!!!");
 		System.out.println("!!!!!!!!!");
 		System.out.println("!!!!!!!!!");
