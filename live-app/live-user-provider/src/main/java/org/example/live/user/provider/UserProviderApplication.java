@@ -48,12 +48,12 @@ public class UserProviderApplication implements CommandLineRunner {
 		String phoneString = "16479291623";
 		UserLoginDTO userLoginDTO = userPhoneService.login(phoneString);
 				
-//		System.out.println(userLoginDTO);
-//		System.out.println(userPhoneService.queryByPhone(phoneString));
-//		System.out.println(userPhoneService.queryByPhone(phoneString));
-//				
-//		System.out.println(userPhoneService.queryByUserId(userLoginDTO.getUserId()));
-//		System.out.println(userPhoneService.queryByUserId(userLoginDTO.getUserId()));
+		System.out.println(userLoginDTO);
+		System.out.println(userPhoneService.queryByPhone(phoneString));
+		System.out.println(userPhoneService.queryByPhone(phoneString));
+				
+		System.out.println(userPhoneService.queryByUserId(userLoginDTO.getUserId()));
+		System.out.println(userPhoneService.queryByUserId(userLoginDTO.getUserId()));
 	}
 	
 	private void testUser() {
