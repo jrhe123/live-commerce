@@ -1,7 +1,5 @@
 package org.example.live.id.generate.provider;
 
-import java.util.HashSet;
-
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.example.live.id.generate.provider.service.IdGenerateService;
 import org.slf4j.Logger;

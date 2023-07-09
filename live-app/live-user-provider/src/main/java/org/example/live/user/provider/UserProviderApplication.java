@@ -37,15 +37,23 @@ public class UserProviderApplication implements CommandLineRunner {
 	}
 	
 	private void testUserLogin() {
-		String phoneString = "6479291623";
-		UserLoginDTO userLoginDTO = userPhoneService.login(phoneString);
 		
-		System.out.println(userLoginDTO);
-		System.out.println(userPhoneService.queryByPhone(phoneString));
-		System.out.println(userPhoneService.queryByPhone(phoneString));
+		System.out.println("!!!!!!!!!!! test user login");
+		System.out.println("!!!!!!!!!!! test user login");
+		System.out.println("!!!!!!!!!!! test user login");
+		System.out.println("!!!!!!!!!!! test user login");
+		System.out.println("!!!!!!!!!!! test user login");
+		System.out.println("!!!!!!!!!!! test user login");
+		
+		String phoneString = "16479291623";
+		UserLoginDTO userLoginDTO = userPhoneService.login(phoneString);
 				
-		System.out.println(userPhoneService.queryByUserId(userLoginDTO.getUserId()));
-		System.out.println(userPhoneService.queryByUserId(userLoginDTO.getUserId()));
+//		System.out.println(userLoginDTO);
+//		System.out.println(userPhoneService.queryByPhone(phoneString));
+//		System.out.println(userPhoneService.queryByPhone(phoneString));
+//				
+//		System.out.println(userPhoneService.queryByUserId(userLoginDTO.getUserId()));
+//		System.out.println(userPhoneService.queryByUserId(userLoginDTO.getUserId()));
 	}
 	
 	private void testUser() {

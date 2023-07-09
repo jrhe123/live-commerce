@@ -1,6 +1,5 @@
 package org.example.live.user.provider.service.impl;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -157,8 +156,8 @@ public class UserPhoneServiceImpl implements IUserPhoneService {
 	private UserPhoneDTO queryByPhoneFromDB(String phone) {
 		LambdaQueryWrapper<UserPhonePO> queryWrapper = new LambdaQueryWrapper<>();
 		
-		String decryptedPhone = DESUtils.decrypt(phone);
-		queryWrapper.eq(UserPhonePO::getPhone, decryptedPhone);
+		String encryptedPhone = DESUtils.encrypt(phone);
+		queryWrapper.eq(UserPhonePO::getPhone, encryptedPhone);
 		
 		queryWrapper.eq(UserPhonePO::getStatus, CommonStatusEnum.VALID_STATUS.getCode());
 		queryWrapper.last("limit 1");
@@ -193,8 +192,9 @@ public class UserPhoneServiceImpl implements IUserPhoneService {
 		
 		List<UserPhoneDTO> queryByUserIdFromDB = queryByUserIdFromDB(userId);
 		if(!CollectionUtils.isEmpty(queryByUserIdFromDB)) {
-			
-			redisTemplate.opsForList().leftPushAll(redisKey, userPhoneList.toArray());
+			queryByUserIdFromDB.stream()
+				.forEach(x -> x.setPhone(DESUtils.decrypt(x.getPhone())));
+			redisTemplate.opsForList().leftPushAll(redisKey, queryByUserIdFromDB.toArray());
 			redisTemplate.expire(redisKey, 30, TimeUnit.MINUTES);
 			return queryByUserIdFromDB;
 		}
