@@ -1,5 +1,7 @@
 package org.example.live.account.provider;
 
+import java.util.Collections;
+
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
@@ -18,4 +20,3 @@ public class AccountProviderApplication {
 		application.run(args);
 	}
 }
-
