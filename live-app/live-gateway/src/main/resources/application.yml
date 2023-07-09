@@ -9,4 +9,19 @@
 #        uri: lb://live-api
 #        predicates:
 #        - Path=/live/api/**
-#          
+#
+#dubbo:
+#  application:
+#    name: ${spring.application.name}
+#    qos-enable: false
+#  registry:
+#    address: nacos://127.0.0.1:8848?namespace=live-test&&username=nacos&&password=nacos
+#
+#logging:
+#  level:
+#    org.springframework.cloud.gateway: INFO
+#    reactor.netty.http.client: INFO
+#    
+#gateway:
+#  notCheckUrlList:
+#    - /live/api/userLogin/
