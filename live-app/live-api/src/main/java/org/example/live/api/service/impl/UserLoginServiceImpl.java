@@ -3,6 +3,7 @@ package org.example.live.api.service.impl;
 import java.util.regex.Pattern;
 
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.example.live.account.interfaces.IAccountTokenRPC;
 import org.example.live.api.service.IUserLoginService;
 import org.example.live.api.vo.UserLoginVO;
 import org.example.live.common.interfaces.utils.ConvertBeanUtils;
@@ -12,6 +13,8 @@ import org.example.live.msg.enums.MsgSendResultEnum;
 import org.example.live.msg.interfaces.ISmsRpc;
 import org.example.live.user.dto.UserLoginDTO;
 import org.example.live.user.interfaces.IUserPhoneRpc;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.nacos.api.utils.StringUtils;
@@ -23,12 +26,16 @@ import jakarta.servlet.http.HttpServletResponse;
 public class UserLoginServiceImpl implements IUserLoginService {
 	
 	private static String PHONE_REG = "\\d{10}|(?:\\d{3}-){2}\\d{4}|\\(\\d{3}\\)\\d{3}-?\\d{4}";
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserLoginServiceImpl.class);
 
 	@DubboReference
 	private ISmsRpc smsRpc;
 	
 	@DubboReference
 	private IUserPhoneRpc userPhoneRpc;
+	
+	@DubboReference
+	private IAccountTokenRPC accountTokenRPC;
 	
 
 	@Override
@@ -70,7 +77,14 @@ public class UserLoginServiceImpl implements IUserLoginService {
 		
 		// 2. login & register
 		UserLoginDTO login = userPhoneRpc.login(phone);
-		Cookie cookie = new Cookie("tk", login.getToken());
+		if (!login.isLoginSuccess()) {
+			LOGGER.error("login error, phone {}", phone);
+			return WebResponseVO.sysError();
+		}
+		
+		// 3. generate token from account provider
+		String token = accountTokenRPC.createAndSaveLoginToken(login.getUserId());
+		Cookie cookie = new Cookie("tk", token);
 		cookie.setDomain("localhost");
 		cookie.setPath("/");
 		cookie.setMaxAge(30 * 24 * 3600);

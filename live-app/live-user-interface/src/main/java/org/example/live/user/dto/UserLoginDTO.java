@@ -11,7 +11,6 @@ public class UserLoginDTO implements Serializable {
 	private boolean isLoginSuccess;
     private String desc;
     private Long userId;
-    private String token;
     
     
     public static UserLoginDTO loginError(String desc) {
@@ -21,11 +20,10 @@ public class UserLoginDTO implements Serializable {
         return userLoginDTO;
     }
 
-    public static UserLoginDTO loginSuccess(Long userId, String token) {
+    public static UserLoginDTO loginSuccess(Long userId) {
         UserLoginDTO userLoginDTO = new UserLoginDTO();
         userLoginDTO.setLoginSuccess(true);
         userLoginDTO.setUserId(userId);
-        userLoginDTO.setToken(token);
         return userLoginDTO;
     }
     
@@ -48,18 +46,11 @@ public class UserLoginDTO implements Serializable {
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
-	public String getToken() {
-		return token;
-	}
-	public void setToken(String token) {
-		this.token = token;
-	}
-	
 	
 	@Override
 	public String toString() {
 		return "UserLoginDTO [isLoginSuccess=" + isLoginSuccess + ", desc=" + desc + ", userId=" + userId + ", token="
-				+ token + "]";
+				+ "]";
 	}
     
     

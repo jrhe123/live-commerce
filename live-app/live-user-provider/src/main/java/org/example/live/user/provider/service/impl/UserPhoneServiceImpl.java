@@ -60,9 +60,7 @@ public class UserPhoneServiceImpl implements IUserPhoneService {
 		
 		// 3. if it exists, create token & return userId
 		if (queryByPhone != null) {
-			String token = createAndSaveLoginToken(queryByPhone.getUserId());
-			return UserLoginDTO.loginSuccess(
-					queryByPhone.getUserId(),token);
+			return UserLoginDTO.loginSuccess(queryByPhone.getUserId());
 		}
 		
 		// 4. if not, create user & user phone
@@ -71,19 +69,25 @@ public class UserPhoneServiceImpl implements IUserPhoneService {
 		return registerAndLogin;
 	}
 	
-	public String createAndSaveLoginToken(Long userId) {
-		String token = UUID.randomUUID().toString();
-		String redisKey = userProviderCacheKeyBuilder.buildUserLoginTokenKey(token);
-		
-		/**
-		 * KEY : VALUE
-		 * xxxx-xxx-token -> userId
-		 */
-		
-		redisTemplate.opsForValue().set(redisKey, userId, 30, TimeUnit.DAYS);
-		
-		return token;
-	}
+	
+	/**
+	 * 
+	 * move to live account module to create token
+	 * 
+	 */
+//	public String createAndSaveLoginToken(Long userId) {
+//		String token = UUID.randomUUID().toString();
+//		String redisKey = userProviderCacheKeyBuilder.buildUserLoginTokenKey(token);
+//		
+//		/**
+//		 * KEY : VALUE
+//		 * xxxx-xxx-token -> userId
+//		 */
+//		
+//		redisTemplate.opsForValue().set(redisKey, userId, 30, TimeUnit.DAYS);
+//		
+//		return token;
+//	}
 	
 	private UserLoginDTO registerAndLogin(String phone) {
 		// 1. create user
@@ -109,8 +113,7 @@ public class UserPhoneServiceImpl implements IUserPhoneService {
 				userProviderCacheKeyBuilder.buildUserPhoneObjKey(phone)
 				);
 		
-		return UserLoginDTO.loginSuccess(
-				userId, createAndSaveLoginToken(userId));
+		return UserLoginDTO.loginSuccess(userId);
 	}
 
 	@Override
