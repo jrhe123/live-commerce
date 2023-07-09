@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @Service
 public class UserLoginServiceImpl implements IUserLoginService {
 	
-	private static String PHONE_REG = "^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\\d{8}$";
+	private static String PHONE_REG = "\\d{10}|(?:\\d{3}-){2}\\d{4}|\\(\\d{3}\\)\\d{3}-?\\d{4}";
 
 	@DubboReference
 	private ISmsRpc smsRpc;
