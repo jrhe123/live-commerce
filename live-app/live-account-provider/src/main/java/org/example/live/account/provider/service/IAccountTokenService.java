@@ -1,4 +1,4 @@
-package org.example.live.accout.provider.service;
+package org.example.live.account.provider.service;
 
 public interface IAccountTokenService {
 

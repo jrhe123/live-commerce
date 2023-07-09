@@ -2,8 +2,7 @@ package org.example.live.account.provider.rpc;
 
 import org.apache.dubbo.config.annotation.DubboService;
 import org.example.live.account.interfaces.IAccountTokenRpc;
-import org.example.live.accout.provider.service.IAccountTokenService;
-import org.example.live.accout.provider.service.ITestService;
+import org.example.live.account.provider.service.IAccountTokenService;
 
 import jakarta.annotation.Resource;
 

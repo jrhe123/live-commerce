@@ -1,9 +1,9 @@
-package org.example.live.accout.provider.service.impl;
+package org.example.live.account.provider.service.impl;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import org.example.live.accout.provider.service.IAccountTokenService;
+import org.example.live.account.provider.service.IAccountTokenService;
 import org.example.live.framework.redis.starter.key.AccountProviderCacheKeyBuilder;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
