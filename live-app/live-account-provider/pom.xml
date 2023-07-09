@@ -9,12 +9,17 @@
     </parent>
     
     <artifactId>live-account-provider</artifactId>
+    <description>account service provider</description>
     
     <properties>
-        <live-redis-starter.version>1.0-SNAPSHOT</live-redis-starter.version>
+        <sharding.jdbc.version>5.3.2</sharding.jdbc.version>
+        <mybatis-plus.version>3.5.3</mybatis-plus.version>
         <live-account-interface.version>1.0-SNAPSHOT</live-account-interface.version>
+        <live-redis-starter.version>1.0-SNAPSHOT</live-redis-starter.version>
         <live-common-interface.version>1.0-SNAPSHOT</live-common-interface.version>
+        <twilio-sms.version>8.8.0</twilio-sms.version>
         <dubbo.version>3.2.0-beta.3</dubbo.version>
+        <spring-cloud-boostrap.version>3.0.2</spring-cloud-boostrap.version>
     </properties>
     
     <dependencies>
@@ -23,21 +28,6 @@
             <artifactId>live-account-interface</artifactId>
             <version>${live-account-interface.version}</version>
         </dependency>
-        
-        
-        <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>live-common-interface</artifactId>
-            <version>${live-common-interface.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>live-framework-redis-starter</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        
-        
-        
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-spring-boot-starter</artifactId>
@@ -56,6 +46,50 @@
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
             <version>${spring-cloud-boostrap.version}</version>
         </dependency>
+        
+        
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j-to-slf4j</artifactId>
+                    <groupId>org.apache.logging.log4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis-plus.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>live-framework-redis-starter</artifactId>
+            <version>${live-redis-starter.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>live-common-interface</artifactId>
+            <version>${live-common-interface.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shardingsphere</groupId>
+            <artifactId>shardingsphere-jdbc-core</artifactId>
+            <version>${sharding.jdbc.version}</version>
+        </dependency>
+        
+        <dependency>
+        	<groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio</artifactId>
+           	<version>${twilio-sms.version}</version>
+        </dependency> 
+        
     </dependencies>
     
     <build>
