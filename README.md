@@ -28,7 +28,7 @@ Live commerce platform
 - Account
 - Payment
 - Livestream
-- IM
+- IM (Instant Messenger)
 - Donate
 
 ![Untitled Diagram drawio](https://github.com/jrhe123/live-commerce/assets/17329299/cbae7840-257d-4902-bcd1-a5e1f1dbf196)
@@ -56,7 +56,6 @@ Live commerce platform
 - lower real-time, better consistency
 
 ![Copy of Untitled Diagram drawio](https://github.com/jrhe123/live-commerce/assets/17329299/f9015478-6720-4086-85bb-8a073efc7ab9)
-
 
 ## Dubbo
 

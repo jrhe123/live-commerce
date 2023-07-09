@@ -1,0 +1,121 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+        <groupId>org.example</groupId>
+        <artifactId>live-app</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    
+    <artifactId>live-account-provider</artifactId>
+    <version>1.0.1</version>
+    
+    <properties>
+        <live-redis-starter.version>1.0-SNAPSHOT</live-redis-starter.version>
+        <live-account-interface.version>1.0-SNAPSHOT</live-account-interface.version>
+        <live-common-interface.version>1.0-SNAPSHOT</live-common-interface.version>
+        <dubbo.version>3.2.0-beta.3</dubbo.version>
+    </properties>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>live-account-interface</artifactId>
+            <version>${live-account-interface.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>live-common-interface</artifactId>
+            <version>${live-common-interface.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>live-framework-redis-starter</artifactId>
+            <version>${live-redis-starter.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-spring-boot-starter</artifactId>
+            <version>${dubbo.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+            <version>${spring-cloud-boostrap.version}</version>
+        </dependency>
+    </dependencies>
+    
+    <build>
+		<finalName>live-account-provider-docker</finalName>
+                
+        <plugins>
+			
+			<!-- SpringBoot app to jar-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId> 
+            </plugin>
+            
+			<plugin>
+	            <groupId>io.fabric8</groupId>
+	            <artifactId>docker-maven-plugin</artifactId>
+	            <version>0.38.1</version>
+	            <executions>
+	                <execution>
+	                    <id>build</id>
+	                    <phase>install</phase>
+	                    <goals>
+	                        <goal>build</goal>
+	                    </goals>
+	                </execution>
+	            </executions>
+	            <configuration>
+					<!-- <dockerHost>${docker.host}</dockerHost> -->
+					<dockerHost>tcp://127.0.0.1:2376</dockerHost>
+					<verbose>true</verbose>
+					<pushRegistry>true</pushRegistry>
+					
+					<authConfig>
+			            <username>{docker.username}</username>
+			            <password>{docker.password}</password>
+			        </authConfig>
+			        
+			        <images>
+						<image>
+							<registry>registry.hub.docker.com</registry>
+							<name>${project.build.finalName}</name>
+							<build>
+								<dockerFileDir>${project.basedir}/docker/</dockerFileDir>
+								<tags>
+									<tag>${project.version}</tag>
+								</tags>
+								<noCache>true</noCache>
+							</build>
+							
+					
+						</image>
+					</images>
+					
+					
+					<buildArgs>
+						<JAR_FILE>
+							${project.build.finalName}.jar</JAR_FILE>
+					</buildArgs>
+				</configuration>
+	        </plugin>
+
+            
+            
+        </plugins>
+    </build>
+
+</project>

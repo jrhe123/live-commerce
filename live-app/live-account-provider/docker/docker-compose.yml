@@ -1,0 +1,18 @@
+version: '3'
+services:
+  live-account-provider-1:
+    container_name: live-account-provider-1
+    image: 'registry.baidubce.com/live-test/live-account-provider-docker:1.0.1'
+    ports:
+      - "9098:9098"
+    volumes:
+      - /tmp/logs/live-account-provider:/tmp/logs/live-account-provider
+    environment:
+      - DUBBO_IP_TO_REGISTRY=192.168.1.7
+      - DUBBO_PORT_TO_REGISTRY=9098
+      - TZ=America/Toronto
+      - JAVA_OPTS=-XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=128m -Xms512m -Xmx512m -Xmn128m -Xss256k
+    extra_hosts:
+      - "nacos.com:192.168.1.7"
+      - "cloud.db:192.168.1.7"
+      - "rmq.com:192.168.1.7"
