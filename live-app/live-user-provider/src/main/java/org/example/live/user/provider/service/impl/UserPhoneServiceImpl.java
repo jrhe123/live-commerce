@@ -58,7 +58,7 @@ public class UserPhoneServiceImpl implements IUserPhoneService {
 		// 2. check if it's registered
 		UserPhoneDTO queryByPhone = queryByPhone(phone);
 		
-		// 3. if it exists, create token & return userId
+		// 3. if it exists, return userId
 		if (queryByPhone != null) {
 			return UserLoginDTO.loginSuccess(queryByPhone.getUserId());
 		}

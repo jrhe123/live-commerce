@@ -49,7 +49,7 @@ public class UserLoginDTO implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "UserLoginDTO [isLoginSuccess=" + isLoginSuccess + ", desc=" + desc + ", userId=" + userId + ", token="
+		return "UserLoginDTO [isLoginSuccess=" + isLoginSuccess + ", desc=" + desc + ", userId=" + userId
 				+ "]";
 	}
     
