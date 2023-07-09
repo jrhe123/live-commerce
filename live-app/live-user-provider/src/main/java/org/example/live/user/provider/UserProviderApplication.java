@@ -2,6 +2,8 @@ package org.example.live.user.provider;
 
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.example.live.user.contants.UserTagsEnum;
+import org.example.live.user.dto.UserLoginDTO;
+import org.example.live.user.provider.service.IUserPhoneService;
 import org.example.live.user.provider.service.IUserTagService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,6 +20,9 @@ public class UserProviderApplication implements CommandLineRunner {
 	
 	@Resource
 	private IUserTagService userTagService;
+	
+	@Resource
+	private IUserPhoneService userPhoneService;
 
 	public static void main(String[] args) {
 		SpringApplication application = new SpringApplication(
@@ -28,7 +33,23 @@ public class UserProviderApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		long userId = 1001L;
+		testUserLogin();
+	}
+	
+	private void testUserLogin() {
+		String phoneString = "6479291623";
+		UserLoginDTO userLoginDTO = userPhoneService.login(phoneString);
+		
+		System.out.println(userLoginDTO);
+		System.out.println(userPhoneService.queryByPhone(phoneString));
+		System.out.println(userPhoneService.queryByPhone(phoneString));
+				
+		System.out.println(userPhoneService.queryByUserId(userLoginDTO.getUserId()));
+		System.out.println(userPhoneService.queryByUserId(userLoginDTO.getUserId()));
+	}
+	
+	private void testUser() {
+//		long userId = 1001L;
 		
 //		System.out.println("add vip tag: " + userTagService.setTag(userId, UserTagsEnum.IS_VIP));
 		
