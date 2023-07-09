@@ -4,59 +4,40 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "sms.ccp")
+@ConfigurationProperties(prefix = "sms.twilio")
 public class ApplicationProperties {
 
-	private String smsServerIp;
-    private Integer port;
-    private String accountSId;
-    private String accountToken;
-    private String appId;
-    private String testPhone;
-	public String getSmsServerIp() {
-		return smsServerIp;
+	private String sid;
+    private String authToken;
+    private String number;
+    
+    
+	public String getSid() {
+		return sid;
 	}
-	public void setSmsServerIp(String smsServerIp) {
-		this.smsServerIp = smsServerIp;
+	public void setSid(String sid) {
+		this.sid = sid;
 	}
-	public Integer getPort() {
-		return port;
+	public String getAuthToken() {
+		return authToken;
 	}
-	public void setPort(Integer port) {
-		this.port = port;
+	public void setAuthToken(String authToken) {
+		this.authToken = authToken;
 	}
-	public String getAccountSId() {
-		return accountSId;
+	public String getNumber() {
+		return number;
 	}
-	public void setAccountSId(String accountSId) {
-		this.accountSId = accountSId;
+	public void setNumber(String number) {
+		this.number = number;
 	}
-	public String getAccountToken() {
-		return accountToken;
-	}
-	public void setAccountToken(String accountToken) {
-		this.accountToken = accountToken;
-	}
-	public String getAppId() {
-		return appId;
-	}
-	public void setAppId(String appId) {
-		this.appId = appId;
-	}
-	public String getTestPhone() {
-		return testPhone;
-	}
-	public void setTestPhone(String testPhone) {
-		this.testPhone = testPhone;
-	}
-	
 	
 	
 	@Override
 	public String toString() {
-		return "ApplicationProperties [smsServerIp=" + smsServerIp + ", port=" + port + ", accountSId=" + accountSId
-				+ ", accountToken=" + accountToken + ", appId=" + appId + ", testPhone=" + testPhone + "]";
+		return "ApplicationProperties [sid=" + sid + ", authToken=" + authToken + ", number=" + number + "]";
 	}
+    
+    
 	
 	
 	

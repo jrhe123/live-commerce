@@ -17,7 +17,7 @@
         <live-msg-interface.version>1.0-SNAPSHOT</live-msg-interface.version>
         <live-redis-starter.version>1.0-SNAPSHOT</live-redis-starter.version>
         <live-common-interface.version>1.0-SNAPSHOT</live-common-interface.version>
-        <cloopen-sms.version>1.0.4</cloopen-sms.version>
+        <twilio-sms.version>8.8.0</twilio-sms.version>
         <dubbo.version>3.2.0-beta.3</dubbo.version>
         <spring-cloud-boostrap.version>3.0.2</spring-cloud-boostrap.version>
     </properties>
@@ -85,11 +85,13 @@
             <artifactId>shardingsphere-jdbc-core</artifactId>
             <version>${sharding.jdbc.version}</version>
         </dependency>
+        
         <dependency>
-            <groupId>com.cloopen</groupId>
-            <artifactId>java-sms-sdk</artifactId>
-            <version>${cloopen-sms.version}</version>
-        </dependency>
+        	<groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio</artifactId>
+           	<version>${twilio-sms.version}</version>
+        </dependency> 
+        
     </dependencies>
 
 </project>

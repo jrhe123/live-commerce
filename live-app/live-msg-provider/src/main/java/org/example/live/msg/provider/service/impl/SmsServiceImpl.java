@@ -11,6 +11,7 @@ import org.example.live.msg.provider.config.ThreadPoolManager;
 import org.example.live.msg.provider.dao.mapper.SmsMapper;
 import org.example.live.msg.provider.dao.po.SmsPO;
 import org.example.live.msg.provider.service.ISmsService;
+import org.example.live.msg.provider.utils.SMSUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -36,6 +37,9 @@ public class SmsServiceImpl implements ISmsService {
 	
 	@Resource
 	private ApplicationProperties applicationProperties;
+	
+	@Resource
+	private SMSUtils smsUtils;
 	
 	
 	@Override
@@ -64,6 +68,7 @@ public class SmsServiceImpl implements ISmsService {
 				60, TimeUnit.SECONDS);
 		// 3. send code in async
 		ThreadPoolManager.commonAsyncPool.execute(() -> {
+			// boolean mockSendSms = smsUtils.sendSMS(phone, code);
 			boolean mockSendSms = mockSendSms(phone, code);
 			
 			// 3.1 save it into DB

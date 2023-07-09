@@ -50,17 +50,8 @@
 #    threads: 500
 #    accepts: 500
 #
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
+#sms:
+#  twilio:
+#    sid: 123
+#    authToken: 123
+#    number: 123
