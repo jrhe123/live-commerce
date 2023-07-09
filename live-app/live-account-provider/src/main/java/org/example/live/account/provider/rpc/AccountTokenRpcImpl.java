@@ -1,13 +1,14 @@
 package org.example.live.account.provider.rpc;
 
 import org.apache.dubbo.config.annotation.DubboService;
-import org.example.live.account.interfaces.IAccountTokenRPC;
+import org.example.live.account.interfaces.IAccountTokenRpc;
 import org.example.live.accout.provider.service.IAccountTokenService;
+import org.example.live.accout.provider.service.ITestService;
 
 import jakarta.annotation.Resource;
 
 @DubboService
-public class AccountTokenRPCImpl implements IAccountTokenRPC {
+public class AccountTokenRpcImpl implements IAccountTokenRpc {
 	
 	@Resource
 	private IAccountTokenService accountTokenService;

@@ -34,6 +34,7 @@ public class AccountTokenServiceImpl implements IAccountTokenService {
 		Integer userId = (Integer) redisTemplate.opsForValue().get(redisKey);
 		
 		return userId == null ? null : Long.valueOf(userId);
+		
 	}
 
 }

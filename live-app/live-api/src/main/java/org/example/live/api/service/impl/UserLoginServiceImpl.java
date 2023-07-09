@@ -3,7 +3,7 @@ package org.example.live.api.service.impl;
 import java.util.regex.Pattern;
 
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.example.live.account.interfaces.IAccountTokenRPC;
+import org.example.live.account.interfaces.IAccountTokenRpc;
 import org.example.live.api.service.IUserLoginService;
 import org.example.live.api.vo.UserLoginVO;
 import org.example.live.common.interfaces.utils.ConvertBeanUtils;
@@ -35,7 +35,7 @@ public class UserLoginServiceImpl implements IUserLoginService {
 	private IUserPhoneRpc userPhoneRpc;
 	
 	@DubboReference
-	private IAccountTokenRPC accountTokenRPC;
+	private IAccountTokenRpc accountTokenRPC;
 	
 
 	@Override

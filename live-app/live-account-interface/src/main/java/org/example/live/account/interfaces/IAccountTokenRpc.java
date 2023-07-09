@@ -1,6 +1,6 @@
 package org.example.live.account.interfaces;
 
-public interface IAccountTokenRPC {
+public interface IAccountTokenRpc {
 
 	/**
 	 * 
