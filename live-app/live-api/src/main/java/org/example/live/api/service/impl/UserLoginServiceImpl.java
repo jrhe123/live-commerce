@@ -88,8 +88,11 @@ public class UserLoginServiceImpl implements IUserLoginService {
 		cookie.setDomain("localhost");
 		cookie.setPath("/");
 		cookie.setMaxAge(30 * 24 * 3600);
-		// web browser store cookie automatic
-		response.setHeader("Access-Control-Allow-Credentials", "true");
+		
+//		moved it to gateway
+//		// web browser store cookie automatic
+//		response.setHeader("Access-Control-Allow-Credentials", "true");
+		
 		response.addCookie(cookie);
 		
 		return WebResponseVO.success(
