@@ -32,6 +32,8 @@ public class StreamUserInfoInterceptor implements HandlerInterceptor {
     public void postHandle(HttpServletRequest request, 
     		HttpServletResponse response, Object handler,
     		ModelAndView modelAndView) throws Exception {
+    	
+    	// clear the threadlocal after the call
     	StreamRequestContext.clear();
     }
 }

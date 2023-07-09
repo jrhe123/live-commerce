@@ -20,11 +20,13 @@ public class StreamRequestContext {
         resources.get().put(key, value);
     }
 
+    
     public static Long getUserId() {
         Object userId = get(RequestConstants.STREAM_USER_ID);
         return userId == null ? null : (Long) userId;
     }
 
+    
     // get method
     public static Object get(Object key) {
         if (key == null) {
@@ -33,6 +35,7 @@ public class StreamRequestContext {
         return resources.get().get(key);
     }
 
+    
     //设计一个clear方法，防止内存泄漏，springboot-web容器处理请求，tomcat，工作线程会去处理我们的业务请求，工作线程是会长时间存在的，
     public static void clear() {
         resources.remove();
