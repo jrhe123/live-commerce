@@ -69,3 +69,8 @@ docker run -d -v /tmp/logs/live-user-provider:/tmp/logs/live-user-provider -p 90
 
 - docker-maven-plugin fabric8
   https://dandelioncloud.cn/article/details/1527085260529745921/
+
+<!-- MAC chip -->
+
+- Change the build plugin
+- jib-maven-plugin
