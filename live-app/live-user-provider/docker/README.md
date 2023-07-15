@@ -74,3 +74,4 @@ docker run -d -v /tmp/logs/live-user-provider:/tmp/logs/live-user-provider -p 90
 
 - Change the build plugin
 - jib-maven-plugin
+- reference: https://www.freesion.com/article/67761215721/
