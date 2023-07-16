@@ -21,7 +21,7 @@ public class NioServer {
 		
 		
 		// keep reading data, even it's empty "byteBuffer"
-		// Notes: if we have 10,000 socket in the list, it will cause the high CPU usage issue
+		// Notes: for example we have 10,000 socket in the list, it will cause the high CPU usage issue
 		new Thread(() -> {
 			while(true) {
 				for (SocketChannel socketChannel : acceptSocketList) {
