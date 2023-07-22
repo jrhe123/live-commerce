@@ -21,6 +21,12 @@
         <module>live-msg-provider</module>
         <module>live-account-interface</module>
         <module>live-account-provider</module>
+        
+        <!-- im -->
+        <module>live-im-interface</module>
+        <module>live-im-core-server-interfaces</module>
+        <module>live-im-core-server</module>
+        
   	</modules>
 
     <properties>
