@@ -3,6 +3,7 @@ package org.example.live.im.core.server;
 
 import org.example.live.im.core.server.common.ImMsgDecoder;
 import org.example.live.im.core.server.common.ImMsgEncoder;
+import org.example.live.im.core.server.handler.ImServerCoreHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,13 +54,13 @@ public class NettyImServerApplication {
 			protected void initChannel(Channel ch) throws Exception {
 				// logger
 				LOGGER.info(">>> [NettyImServerApplication] Init im channel");
-				
-				// Message
-				
-				// encoder & decoder
+							
+				// add encoder & decoder
 				ch.pipeline().addLast(new ImMsgDecoder());
 				ch.pipeline().addLast(new ImMsgEncoder());
-				// setup Netty handler
+				
+				// add Netty handler
+				ch.pipeline().addLast(new ImServerCoreHandler());
 			}
 		});
 		

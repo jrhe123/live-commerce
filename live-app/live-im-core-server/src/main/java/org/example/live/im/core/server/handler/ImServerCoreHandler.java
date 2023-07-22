@@ -1,11 +1,16 @@
 package org.example.live.im.core.server.handler;
 
 import org.example.live.im.core.server.common.ImMsg;
+import org.example.live.im.core.server.handler.impl.ImHandlerFactoryImpl;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 public class ImServerCoreHandler extends SimpleChannelInboundHandler {
+	
+	
+	private ImHandlerFactory imHandlerFactory = new ImHandlerFactoryImpl();
+	
 
 	@Override
 	protected void channelRead0(
@@ -16,9 +21,11 @@ public class ImServerCoreHandler extends SimpleChannelInboundHandler {
 		}
 		
 		ImMsg imMsg = (ImMsg) msg;
-		int code = imMsg.getCode();
+		// int code = imMsg.getCode();
+		
 		
 		// depends on the code, we send it to different handlers
+		imHandlerFactory.doMsgHandler(ctx, imMsg);
 		
 		/**
 		 * 
