@@ -29,6 +29,10 @@ public class LoginMsgHandler implements SimplyHandler {
 
 	@Override
 	public void handler(ChannelHandlerContext ctx, ImMsg imMsg) {
+		//防止重复请求
+        if (ImContextUtils.getUserId(ctx) != null) {
+            return;
+        }
 		
 		byte[] body = imMsg.getBody();
 		
