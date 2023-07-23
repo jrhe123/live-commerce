@@ -88,7 +88,24 @@
         	<groupId>com.twilio.sdk</groupId>
             <artifactId>twilio</artifactId>
            	<version>${twilio-sms.version}</version>
-        </dependency> 
+        </dependency>
+        
+        
+        <!-- MQ consumer for IM -->
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>live-framework-mq-starter</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>live-im-interface</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        
+        <!-- IM router -->
+        
         
     </dependencies>
 

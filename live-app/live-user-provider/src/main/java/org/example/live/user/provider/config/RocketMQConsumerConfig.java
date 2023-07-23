@@ -78,7 +78,7 @@ public class RocketMQConsumerConfig implements InitializingBean {
 					System.out.println("!!!!!!!!!!");
 					System.out.println("!!!!!!!!!!");
 					System.out.println("!!!!!!!!!!");
-					System.out.println("CONSUMER received: " + userCacheAsyncDeleteDTO);
+					System.out.println("MQ CONSUMER received: " + userCacheAsyncDeleteDTO);
 					
 					if (CacheAsyncDeleteCode.USER_INFO_DELETE.getCode() == userCacheAsyncDeleteDTO.getCode()) {
 	                    Long userId = JSON.parseObject(userCacheAsyncDeleteDTO.getJson()).getLong("userId");

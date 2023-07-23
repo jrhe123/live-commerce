@@ -160,7 +160,7 @@ public class UserTagServiceImpl implements IUserTagService {
 		String userTagKeyString = userProviderCacheKeyBuilder.buildTagKey(userId);
 		redisTemplate.delete(userTagKeyString);
 		
-		// mq delay delete redis
+		// MQ delay delete redis
 		try {
 			
 			Map<String, Object> jsonParam = new HashMap<>();
@@ -170,6 +170,7 @@ public class UserTagServiceImpl implements IUserTagService {
 			userCacheAsyncDeleteDTO.setJson(JSON.toJSONString(jsonParam));
 			
 			
+			// !!! SEND MQ !!!
 			Message message = new Message();
 			message.setTopic(UserProviderTopicNames.CACHE_ASYNC_DELETE_TOPIC);
 			message.setBody(JSON.toJSONString(userCacheAsyncDeleteDTO).getBytes());

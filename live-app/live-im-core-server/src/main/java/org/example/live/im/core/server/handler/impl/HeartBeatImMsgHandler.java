@@ -53,8 +53,9 @@ public class HeartBeatImMsgHandler implements SimplyHandler {
         redisTemplate.expire(redisKey, 5, TimeUnit.MINUTES);
         
         
-        //延长用户之前保存的ip绑定记录时间
-        stringRedisTemplate.expire(ImCoreServerConstants.IM_BIND_IP_KEY + appId + userId, ImConstants.DEFAULT_HEART_BEAT_GAP * 2, TimeUnit.SECONDS);
+        //延长用户之前保存的ip绑定记录时间, 2 * heartbeat time elapse
+        stringRedisTemplate.expire(ImCoreServerConstants.IM_BIND_IP_KEY + appId + userId, 
+        		ImConstants.DEFAULT_HEART_BEAT_GAP * 2, TimeUnit.SECONDS);
         
         
         // response msg

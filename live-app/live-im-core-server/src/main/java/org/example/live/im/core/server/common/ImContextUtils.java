@@ -4,6 +4,7 @@ import io.netty.channel.ChannelHandlerContext;
 
 public class ImContextUtils {
 
+	// appId
     public static void setAppId(ChannelHandlerContext ctx, int appId) {
         ctx.channel().attr(ImContextAttr.APP_ID).set(appId);
     }
@@ -18,6 +19,8 @@ public class ImContextUtils {
     
     
 
+    
+    // userId
     public static void setUserId(ChannelHandlerContext ctx, Long userId) {
         ctx.channel().attr(ImContextAttr.USER_ID).set(userId);
     }
