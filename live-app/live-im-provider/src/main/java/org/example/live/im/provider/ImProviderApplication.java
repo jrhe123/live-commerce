@@ -29,16 +29,16 @@ public class ImProviderApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		long userId = 109213231L;
-		
-		String token = imTokenService.cressteImLoginToken(
-				userId, AppIdEnum.LIVE_BIZ_APP.getCode());
-		
-		Long userIdByToken = imTokenService.getUserIdByToken(token);
-		
-		System.out.println(">>>>>>>");
-		System.out.println(">>>>>>> userId: " + userId);
-		System.out.println(">>>>>>> retrived from token: " + userIdByToken);
+//		long userId = 109213231L;
+//		
+//		String token = imTokenService.cressteImLoginToken(
+//				userId, AppIdEnum.LIVE_BIZ_APP.getCode());
+//		
+//		Long userIdByToken = imTokenService.getUserIdByToken(token);
+//		
+//		System.out.println(">>>>>>>");
+//		System.out.println(">>>>>>> userId: " + userId);
+//		System.out.println(">>>>>>> retrived from token: " + userIdByToken);
 	}
 
 }
