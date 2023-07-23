@@ -3,6 +3,9 @@ package org.example.live.im.core.server.handler.impl;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.example.live.im.constants.AppIdEnum;
 import org.example.live.im.constants.ImMsgCodeEnum;
+import org.example.live.im.core.server.common.ChannelHandlerContextCache;
+import org.example.live.im.core.server.common.ImContextAttr;
+import org.example.live.im.core.server.common.ImContextUtils;
 import org.example.live.im.core.server.common.ImMsg;
 import org.example.live.im.core.server.handler.SimplyHandler;
 import org.example.live.im.dto.ImMsgBody;
@@ -12,9 +15,9 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.cloud.commons.lang.StringUtils;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.internal.StringUtil;
 
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.util.AttributeKey;
 
 public class LoginMsgHandler implements SimplyHandler {
 	
@@ -26,7 +29,6 @@ public class LoginMsgHandler implements SimplyHandler {
 
 	@Override
 	public void handler(ChannelHandlerContext ctx, ImMsg imMsg) {
-		System.out.println("this is login message handler");
 		
 		byte[] body = imMsg.getBody();
 		
@@ -44,10 +46,19 @@ public class LoginMsgHandler implements SimplyHandler {
 			throw new IllegalArgumentException("Error: token error");
 		}
 		
+		Integer appId = imMsgBody.getAppId();
 		Long userId = imTokenRpc.getUserIdByToken(token);
 		if (userId != null && userId.equals(imMsgBody.getUserId())) {
 			// valid success
 			
+			// 1. save it into map, map userId & context
+			ChannelHandlerContextCache.put(userId, ctx);
+			
+			// 2. add attribute to context, for "正常/意外断线"
+			ImContextUtils.setUserId(ctx, userId);
+            ImContextUtils.setAppId(ctx, appId);
+			
+			// 3. build response body & msg
 			ImMsgBody resBody = new ImMsgBody();
 			resBody.setAppId(AppIdEnum.LIVE_BIZ_APP.getCode());
 			resBody.setUserId(userId);

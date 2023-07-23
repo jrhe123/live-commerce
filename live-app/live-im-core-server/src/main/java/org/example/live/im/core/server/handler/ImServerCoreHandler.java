@@ -1,5 +1,7 @@
 package org.example.live.im.core.server.handler;
 
+import org.example.live.im.core.server.common.ChannelHandlerContextCache;
+import org.example.live.im.core.server.common.ImContextUtils;
 import org.example.live.im.core.server.common.ImMsg;
 import org.example.live.im.core.server.handler.impl.ImHandlerFactoryImpl;
 
@@ -57,9 +59,23 @@ public class ImServerCoreHandler extends SimpleChannelInboundHandler {
 		 * heart-beat message
 		 * 1. check application online (scheduler)
 		 * 
-		 */
+		 */		
+	}
+	
+	/**
+	 * 
+	 * 正常/意外断线，都会被触发
+	 * 
+	 */
+	@Override
+	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
 		
+		Long userId = ImContextUtils.getUserId(ctx);
 		
+		// remove ChannelHandlerContext from the RAM, prevent leaking
+        if (userId != null) {
+            ChannelHandlerContextCache.remove(userId);
+        }
 	}
 
 }
