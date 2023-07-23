@@ -10,6 +10,8 @@ public class LogoutMsgHandler implements SimplyHandler {
 	@Override
 	public void handler(ChannelHandlerContext ctx, ImMsg imMsg) {
 		System.out.println("this is logout message handler");
+		
+		ctx.writeAndFlush(imMsg);
 	}
 
 }

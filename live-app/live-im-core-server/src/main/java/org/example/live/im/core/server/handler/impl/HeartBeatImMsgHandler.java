@@ -10,6 +10,8 @@ public class HeartBeatImMsgHandler implements SimplyHandler {
 	@Override
 	public void handler(ChannelHandlerContext ctx, ImMsg imMsg) {
 		System.out.println("this is heart beat message handler");
+		
+		ctx.writeAndFlush(imMsg);
 	}
 
 }

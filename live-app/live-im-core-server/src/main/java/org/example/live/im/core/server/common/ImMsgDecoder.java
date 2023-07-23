@@ -35,7 +35,7 @@ public class ImMsgDecoder extends ByteToMessageDecoder {
 			 * 4. body
 			 */
 			// check magic
-			if ((in.readShort()) != ImConstants.DEFAULT_MAGIC) {
+			if (in.readShort() != ImConstants.DEFAULT_MAGIC) {
 				// if magic is invalid, we close the channel and return
 				ctx.close();
 				return;
@@ -57,8 +57,9 @@ public class ImMsgDecoder extends ByteToMessageDecoder {
 			imMsg.setCode(code);
 			imMsg.setLen(len);
 			imMsg.setBody(body);
+			imMsg.setMagic(ImConstants.DEFAULT_MAGIC);
 			
-			// return imMsg
+			// return imMsg to next service
 			out.add(imMsg);
 		}
 		

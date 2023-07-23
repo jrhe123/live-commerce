@@ -1,8 +1,13 @@
 package org.example.live.im.core.server.common;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class ImMsg {
+import org.example.live.im.interfaces.ImConstants;
+
+public class ImMsg implements Serializable{
+
+	private static final long serialVersionUID = 4788172126955698333L;
 
 	// validate
 	private short magic;
@@ -15,6 +20,19 @@ public class ImMsg {
 	
 	// message data
 	private byte[] body;
+	
+	
+	
+	// static build
+	public static ImMsg build(int code, String data) {
+		ImMsg imMsg = new ImMsg();
+		imMsg.setMagic(ImConstants.DEFAULT_MAGIC);
+		imMsg.setCode(code);
+		imMsg.setBody(data.getBytes());
+		imMsg.setLen(imMsg.getBody().length);
+		return imMsg;
+	}
+	
 	
 	
 	

@@ -10,6 +10,8 @@ public class BizImMsgHandler implements SimplyHandler {
 	@Override
 	public void handler(ChannelHandlerContext ctx, ImMsg imMsg) {
 		System.out.println("this is biz message handler");
+		
+		ctx.writeAndFlush(imMsg);
 	}
 
 }
