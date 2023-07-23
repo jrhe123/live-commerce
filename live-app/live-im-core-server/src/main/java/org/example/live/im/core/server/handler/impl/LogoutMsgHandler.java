@@ -9,12 +9,14 @@ import org.example.live.im.dto.ImMsgBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
 
 import io.netty.channel.ChannelHandlerContext;
 import jakarta.annotation.Resource;
 
+@Component
 public class LogoutMsgHandler implements SimplyHandler {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(LogoutMsgHandler.class);

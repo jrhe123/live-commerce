@@ -15,6 +15,7 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import jakarta.annotation.Resource;
 
 @Configuration
 public class NettyImServerStarter implements InitializingBean {
@@ -24,6 +25,9 @@ public class NettyImServerStarter implements InitializingBean {
 	// listen port
 	@Value("${im.port}")
 	private int port;
+	
+	@Resource
+	private ImServerCoreHandler imServerCoreHandler;
 
 	// Netty is using NIO
 	// start Netty, blind port
@@ -54,7 +58,7 @@ public class NettyImServerStarter implements InitializingBean {
 				ch.pipeline().addLast(new ImMsgEncoder());
 
 				// add Netty handler
-				ch.pipeline().addLast(new ImServerCoreHandler());
+				ch.pipeline().addLast(imServerCoreHandler);
 			}
 		});
 

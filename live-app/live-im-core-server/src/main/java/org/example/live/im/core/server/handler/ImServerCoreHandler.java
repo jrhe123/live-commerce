@@ -4,14 +4,17 @@ import org.example.live.im.core.server.common.ChannelHandlerContextCache;
 import org.example.live.im.core.server.common.ImContextUtils;
 import org.example.live.im.core.server.common.ImMsg;
 import org.example.live.im.core.server.handler.impl.ImHandlerFactoryImpl;
+import org.springframework.stereotype.Component;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import jakarta.annotation.Resource;
 
+@Component
 public class ImServerCoreHandler extends SimpleChannelInboundHandler {
 	
-	
-	private ImHandlerFactory imHandlerFactory = new ImHandlerFactoryImpl();
+	@Resource
+	private ImHandlerFactory imHandlerFactory;
 	
 
 	@Override

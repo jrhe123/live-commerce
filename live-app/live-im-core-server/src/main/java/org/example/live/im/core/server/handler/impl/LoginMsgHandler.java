@@ -4,7 +4,6 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.example.live.im.constants.AppIdEnum;
 import org.example.live.im.constants.ImMsgCodeEnum;
 import org.example.live.im.core.server.common.ChannelHandlerContextCache;
-import org.example.live.im.core.server.common.ImContextAttr;
 import org.example.live.im.core.server.common.ImContextUtils;
 import org.example.live.im.core.server.common.ImMsg;
 import org.example.live.im.core.server.handler.SimplyHandler;
@@ -12,13 +11,14 @@ import org.example.live.im.dto.ImMsgBody;
 import org.example.live.im.interfaces.ImTokenRpc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.alibaba.cloud.commons.lang.StringUtils;
 import com.alibaba.fastjson.JSON;
 
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.util.AttributeKey;
 
+@Component
 public class LoginMsgHandler implements SimplyHandler {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(LoginMsgHandler.class);
