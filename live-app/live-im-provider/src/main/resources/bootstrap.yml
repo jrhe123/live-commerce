@@ -1,0 +1,17 @@
+spring:
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: live-test
+      config:
+        import-check:
+          enabled: false
+        file-extension: yaml
+        server-addr: 127.0.0.1:8848
+        namespace: live-test
+  config:
+    import:
+      - optional:nacos:live-im-provider.yaml

@@ -1,4 +1,4 @@
-package org.example.live.im.interfaces;
+package org.example.live.im.constants;
 
 public class ImConstants {
 

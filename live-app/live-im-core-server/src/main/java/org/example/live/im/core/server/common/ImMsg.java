@@ -1,12 +1,14 @@
 package org.example.live.im.core.server.common;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import org.example.live.im.interfaces.ImConstants;
+import org.example.live.im.constants.ImConstants;
 
 public class ImMsg implements Serializable{
 
+	@Serial
 	private static final long serialVersionUID = 4788172126955698333L;
 
 	// validate

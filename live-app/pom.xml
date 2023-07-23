@@ -24,6 +24,7 @@
         
         <!-- im -->
         <module>live-im-interface</module>
+        <module>live-im-provider</module>
         <module>live-im-core-server-interfaces</module>
         <module>live-im-core-server</module>
         

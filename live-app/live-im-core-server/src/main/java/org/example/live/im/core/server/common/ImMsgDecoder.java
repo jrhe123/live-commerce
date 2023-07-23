@@ -2,7 +2,7 @@ package org.example.live.im.core.server.common;
 
 import java.util.List;
 
-import org.example.live.im.interfaces.ImConstants;
+import org.example.live.im.constants.ImConstants;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

@@ -2,10 +2,10 @@ package imclient;
 
 
 
+import org.example.live.im.constants.ImMsgCodeEnum;
 import org.example.live.im.core.server.common.ImMsg;
 import org.example.live.im.core.server.common.ImMsgDecoder;
 import org.example.live.im.core.server.common.ImMsgEncoder;
-import org.example.live.im.interfaces.ImMsgCodeEnum;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
