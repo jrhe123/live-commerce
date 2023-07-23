@@ -13,8 +13,8 @@ public class ImTokenRpcImpl implements ImTokenRpc {
 	private ImTokenService imTokenService;
 
 	@Override
-	public String cressteImLoginToken(long userId, int appId) {
-		return imTokenService.cressteImLoginToken(userId, appId);
+	public String createImLoginToken(long userId, int appId) {
+		return imTokenService.createImLoginToken(userId, appId);
 	}
 
 	@Override

@@ -21,7 +21,7 @@ public class ImTokenServiceImpl implements ImTokenService {
 	
 
 	@Override
-	public String cressteImLoginToken(long userId, int appId) {
+	public String createImLoginToken(long userId, int appId) {
 		String token = UUID.randomUUID() + "%" + appId;
 		String redisKey = cacheKeyBuilder.buildImLoginTokenKey(token);
 		

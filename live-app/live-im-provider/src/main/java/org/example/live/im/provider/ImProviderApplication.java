@@ -31,7 +31,7 @@ public class ImProviderApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 //		long userId = 109213231L;
 //		
-//		String token = imTokenService.cressteImLoginToken(
+//		String token = imTokenService.createImLoginToken(
 //				userId, AppIdEnum.LIVE_BIZ_APP.getCode());
 //		
 //		Long userIdByToken = imTokenService.getUserIdByToken(token);

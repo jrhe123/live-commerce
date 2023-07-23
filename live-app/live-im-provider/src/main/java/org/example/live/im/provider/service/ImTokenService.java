@@ -11,7 +11,7 @@ public interface ImTokenService {
 	 * @param appId
 	 * @return
 	 */
-	String cressteImLoginToken(long userId, int appId);
+	String createImLoginToken(long userId, int appId);
 	
 	/**
 	 * 
