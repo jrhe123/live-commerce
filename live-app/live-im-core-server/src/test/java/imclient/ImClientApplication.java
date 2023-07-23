@@ -21,7 +21,7 @@ public class ImClientApplication {
 	public static void main(String[] args) throws InterruptedException {
 		
 		ImClientApplication clientApplication = new ImClientApplication();
-		clientApplication.startConnection("localhost", 9090);
+		clientApplication.startConnection("localhost", 8085);
 	}
 
 	private void startConnection(String address, int port) throws InterruptedException {
