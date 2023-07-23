@@ -2,3 +2,6 @@ org.example.live.framework.redis.starter.config.RedisConfig
 org.example.live.framework.redis.starter.key.UserProviderCacheKeyBuilder
 org.example.live.framework.redis.starter.key.MsgProviderCacheKeyBuilder
 org.example.live.framework.redis.starter.key.AccountProviderCacheKeyBuilder
+
+org.example.live.framework.redis.starter.key.ImCoreServerProviderCacheKeyBuilder
+org.example.live.framework.redis.starter.key.ImProviderCacheKeyBuilder
