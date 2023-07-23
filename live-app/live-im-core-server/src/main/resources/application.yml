@@ -13,7 +13,16 @@
 #          max-idle: 10
 #
 #im:
-#  port: 9090
+#  port: 8085
+
+#rmq:
+#  producer:
+#    nameSrv: localhost:9876
+#    groupName: ${spring.application.name}
+#    applicationName: ${spring.application.name}
+#    sendMsgTimeout: 3000
+#    retryTimes: 2
+
 #  
 #dubbo:
 #  application:
