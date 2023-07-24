@@ -9,6 +9,13 @@ Live commerce platform
 - netty
 - RocketMQ
 
+#### Test case
+
+- modules
+  - live-im-core-server:test (im-client) !!! send BIZ message !!!
+  - live-im-core-server (im-server) !!! send message to MQ producer !!!
+  - live-msg-provider (MQ consumer) !!! pull it from broker !!!
+
 #### TCP vs WebSocket
 
 - TCP (native) has better performace than WebSocket ~ 10times faster

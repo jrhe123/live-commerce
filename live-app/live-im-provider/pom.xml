@@ -10,19 +10,23 @@
     
     <artifactId>live-im-provider</artifactId>
    	<description>im service - RPC interface</description>
-   	
-   	<properties>
+    
+    <properties>
+		<dubbo.version>3.2.0-beta.3</dubbo.version>
         <live-redis-starter.version>1.0-SNAPSHOT</live-redis-starter.version>
         <live-im-interface.version>1.0-SNAPSHOT</live-im-interface.version>
         <live-common-interface.version>1.0-SNAPSHOT</live-common-interface.version>
     </properties>
     
     <dependencies>
-        <dependency>
+		
+		<dependency>
             <groupId>org.example</groupId>
             <artifactId>live-common-interface</artifactId>
             <version>${live-common-interface.version}</version>
+            <scope>compile</scope>
         </dependency>
+        
         
         
         <dependency>
@@ -30,6 +34,7 @@
             <artifactId>live-framework-redis-starter</artifactId>
             <version>${live-redis-starter.version}</version>
         </dependency>
+        
         
         
         <dependency>
@@ -41,28 +46,49 @@
         
         
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j-to-slf4j</artifactId>
+                    <groupId>org.apache.logging.log4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+
+
+        <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-        </dependency>
+        </dependency>   
+        
+        <!-- 
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
-        
-        
-        
-        <dependency>
+		-->     
+		
+		<!-- 
+		<dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
             <version>${spring-cloud-boostrap.version}</version>
         </dependency>
+        -->
+        
         
         
         <dependency>
             <groupId>org.example</groupId>
             <artifactId>live-im-interface</artifactId>
-            <version>${live-im-interface.version}</version>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
+        
+        
     </dependencies>
+
 
 </project>

@@ -13,32 +13,31 @@ import jakarta.annotation.Resource;
 
 @SpringBootApplication
 @EnableDubbo
-public class ImProviderApplication implements CommandLineRunner {
+public class ImProviderApplication implements CommandLineRunner{
+	
 	
 	@Resource
 	private ImTokenService imTokenService;
 
 	
-	public static void main(String[] args) {
-		
-        SpringApplication springApplication =
-        		new SpringApplication(ImProviderApplication.class);
-        springApplication.setWebApplicationType(WebApplicationType.NONE);
-        springApplication.run(args);
+	public static void main(String[] args) {        
+        SpringApplication application = new SpringApplication(ImProviderApplication.class);        
+		application.setWebApplicationType(WebApplicationType.NONE);
+		application.run(args);
     }
+
 
 	@Override
 	public void run(String... args) throws Exception {
-//		long userId = 109213231L;
-//		
-//		String token = imTokenService.createImLoginToken(
-//				userId, AppIdEnum.LIVE_BIZ_APP.getCode());
-//		
-//		Long userIdByToken = imTokenService.getUserIdByToken(token);
-//		
-//		System.out.println(">>>>>>>");
-//		System.out.println(">>>>>>> userId: " + userId);
-//		System.out.println(">>>>>>> retrived from token: " + userIdByToken);
+		long userId = 109213231L;
+		
+		String token = imTokenService.createImLoginToken(
+				userId, AppIdEnum.LIVE_BIZ_APP.getCode());
+		Long userIdByToken = imTokenService.getUserIdByToken(token);
+		
+		System.out.println(">>>>>>>");
+		System.out.println(">>>>>>> userId: " + userId);
+		System.out.println(">>>>>>> retrived from token: " + userIdByToken);
 	}
 
 }

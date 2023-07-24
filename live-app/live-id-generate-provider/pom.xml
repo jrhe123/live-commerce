@@ -8,7 +8,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     
-    <artifactId>demo-module</artifactId>
+    <artifactId>live-id-generate-provider</artifactId>
     <description>id generator</description>
     
     <properties>

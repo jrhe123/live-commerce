@@ -31,7 +31,7 @@
 #    address: nacos://127.0.0.1:8848?namespace=live-test&&username=nacos&&password=nacos
 #  protocol:
 #    name: dubbo
-#    port: 9091
+#    port: 9093
 #    threadpool: fixed
 #    dispatcher: execution
 #    threads: 500
