@@ -26,6 +26,10 @@
         <module>live-im-core-server</module>
         <module>live-im-interface</module>
         <module>live-im-provider</module>
+        
+        <module>live-im-router-provider</module>
+        <module>live-im-router-interface</module>
+        
         <module>live-im-core-server-interfaces</module>
         
         

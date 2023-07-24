@@ -87,7 +87,12 @@ public class ImClientHandler implements InitializingBean {
                         bizBody.setUserId(userId);
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("userId", userId);
+                        
+                        
+                        // objectId -> indicate which IM server to send back
                         jsonObject.put("objectId", 1001101L);
+                        
+                        
                         jsonObject.put("content", "你好,我是" + userId);
                         bizBody.setData(JSON.toJSONString(jsonObject));
                         

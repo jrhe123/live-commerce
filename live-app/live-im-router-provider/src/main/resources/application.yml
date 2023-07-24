@@ -1,0 +1,25 @@
+#spring:
+#  application:
+#    name: live-im-router-provider
+#
+#dubbo:
+#  application:
+#    name: ${spring.application.name}
+#    qos-enable: false
+#  registry:
+#    address: nacos://127.0.0.1:8848?namespace=live-test&&username=nacos&&password=nacos
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#

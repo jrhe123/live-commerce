@@ -1,0 +1,25 @@
+spring:
+#  application:
+#    name: live-user-provider
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: live-test
+      config:
+        import-check:
+          enabled: false
+        file-extension: yaml
+        server-addr: 127.0.0.1:8848
+        namespace: live-test
+  config:
+    import:
+      - optional:nacos:live-im-router-provider.yaml # load application.yml from nacos config
+
+
+# we defined "imRouter" in META-INF folder
+dubbo:
+  consumer:
+    cluster: imRouter
