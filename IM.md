@@ -16,6 +16,10 @@ Live commerce platform
   - live-im-core-server (im-server) !!! send message to MQ producer !!!
   - live-msg-provider (MQ consumer) !!! pull it from broker !!!
 
+#### How to use junit to test Netty
+
+- https://blog.51cto.com/u_16175439/6671294
+
 #### TCP vs WebSocket
 
 - TCP (native) has better performace than WebSocket ~ 10times faster
