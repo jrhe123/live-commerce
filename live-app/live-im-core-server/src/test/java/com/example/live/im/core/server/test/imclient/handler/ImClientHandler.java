@@ -1,4 +1,4 @@
-package imclient.handler;
+package com.example.live.im.core.server.test.imclient.handler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +34,7 @@ public class ImClientHandler implements InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
+				
 		Thread clientThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -50,10 +51,16 @@ public class ImClientHandler implements InitializingBean {
                         ch.pipeline().addLast(new ClientHandler());
                     }
                 });
+                
+                
+                
                 Map<Long, Channel> userIdChannelMap = new HashMap<>();
                 for (int i = 0; i < 10; i++) {
                     Long userId = 200000L + i;
                     String token = imTokenRpc.createImLoginToken(userId, AppIdEnum.LIVE_BIZ_APP.getCode());
+                    
+                    System.out.println("!!!!!!!!!!!!!!!! generated token: " + token);
+                    
                     ChannelFuture channelFuture = null;
                     try {
                         channelFuture = bootstrap.connect("localhost", 8085).sync();
@@ -65,11 +72,14 @@ public class ImClientHandler implements InitializingBean {
                     imMsgBody.setAppId(AppIdEnum.LIVE_BIZ_APP.getCode());
                     imMsgBody.setToken(token);
                     imMsgBody.setUserId(userId);
+                    
+                    
                     ImMsg loginMsg = ImMsg.build(ImMsgCodeEnum.IM_LOGIN_MSG.getCode(), JSON.toJSONString(imMsgBody));
                     channel.writeAndFlush(loginMsg);
                     userIdChannelMap.put(userId, channel);
                 }
 
+                
                 while (true) {
                     for (Long userId : userIdChannelMap.keySet()) {
                         ImMsgBody bizBody = new ImMsgBody();
@@ -80,6 +90,13 @@ public class ImClientHandler implements InitializingBean {
                         jsonObject.put("objectId", 1001101L);
                         jsonObject.put("content", "你好,我是" + userId);
                         bizBody.setData(JSON.toJSONString(jsonObject));
+                        
+                        
+                        System.out.println("!!!!!!!!!!!!!!!! send biz message");
+                        System.out.println("!!!!!!!!!!!!!!!! send biz message");
+                        System.out.println("!!!!!!!!!!!!!!!! send biz message");
+                        
+                        
                         ImMsg heartBeatMsg = ImMsg.build(ImMsgCodeEnum.IM_BIZ_MSG.getCode(), JSON.toJSONString(bizBody));
                         userIdChannelMap.get(userId).writeAndFlush(heartBeatMsg);
                     }

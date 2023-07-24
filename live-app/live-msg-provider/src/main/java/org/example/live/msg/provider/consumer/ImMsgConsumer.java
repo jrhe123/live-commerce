@@ -61,9 +61,17 @@ public class ImMsgConsumer implements InitializingBean {
                 ImMsgBody imMsgBody = JSON.parseObject(
                 		new String(msg.getBody()), ImMsgBody.class);
                 
-                // execute the message as business logic
+                System.out.println("!!! consumer received !!!: ");
+                System.out.println("!!! consumer received !!!: ");
+                System.out.println("!!! consumer received !!!: ");
+                System.out.println("!!! consumer received !!!: ");
+                System.out.println("!!! consumer received !!!: " + imMsgBody);
+                
+                // execute the message: the business logic here
                 singleMessageHandler.onMsgReceive(imMsgBody);
             }
+            
+            // return consume success !!!
             return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
         });
         

@@ -38,6 +38,9 @@ public class ImHandlerFactoryImpl implements ImHandlerFactory, InitializingBean 
 		}
 		
 		
+		System.out.println("[ImHandlerFactoryImpl]: " + simplyHandler);
+		
+		
 		simplyHandler.handler(ctx, imMsg);
 	}
 

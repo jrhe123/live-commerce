@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class MessageHandlerImpl implements MessageHandler {
 	
-	@DubboReference
-    // private ImRouterRpc routerRpc;
+//	@DubboReference
+//     private ImRouterRpc routerRpc;
 	
 
 	@Override

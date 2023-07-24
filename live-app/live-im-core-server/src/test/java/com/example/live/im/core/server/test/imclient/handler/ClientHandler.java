@@ -1,4 +1,4 @@
-package imclient.handler;
+package com.example.live.im.core.server.test.imclient.handler;
 
 import org.example.live.im.core.server.common.ImMsg;
 

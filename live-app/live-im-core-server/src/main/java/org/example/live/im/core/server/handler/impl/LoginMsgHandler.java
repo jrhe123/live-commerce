@@ -45,6 +45,9 @@ public class LoginMsgHandler implements SimplyHandler {
 		
 		ImMsgBody imMsgBody = JSON.parseObject(new String(body), ImMsgBody.class);
 		String token = imMsgBody.getToken();
+		
+		System.out.println(">>>>>>>>> [LoginMsgHandler]: token: " + token);
+		
 		if (StringUtils.isEmpty(token)) {
 			ctx.close();
 			LOGGER.error("Error: token error, imMsg: {}", imMsg);

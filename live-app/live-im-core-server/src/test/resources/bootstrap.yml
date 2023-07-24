@@ -14,4 +14,4 @@ spring:
         namespace: live-test
   config:
     import:
-      - optional:nacos:live-im-provider.yaml # load application.yml from nacos config
+      - optional:nacos:live-im-core-server.yaml
