@@ -35,7 +35,8 @@ public class NettyImServerStarter implements InitializingBean {
 
 		/**
 		 * 
-		 * bossGroup: handle "accept" workerGroup: handle "isReadable" & "isWritable"
+		 * bossGroup: handle "accept" 
+		 * workerGroup: handle "isReadable" & "isWritable"
 		 * 
 		 */
 		NioEventLoopGroup bossGroup = new NioEventLoopGroup();
