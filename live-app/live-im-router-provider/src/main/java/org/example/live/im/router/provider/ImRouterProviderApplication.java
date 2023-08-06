@@ -27,6 +27,8 @@ public class ImRouterProviderApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		
+		// 模拟发送消息
 		for(int i = 0; i < 1000; i++) {
 			ImMsgBody imMsgBody = new ImMsgBody();
 			imRouterService.sendMsg(imMsgBody);

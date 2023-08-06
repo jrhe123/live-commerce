@@ -11,6 +11,6 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		ImMsg imMsg = (ImMsg) msg;
 		
-		System.out.println("[ClientHandler] server reply result: " + imMsg);
+		System.out.println("[ClientHandler] server reply message result: " + imMsg);
 	}
 }

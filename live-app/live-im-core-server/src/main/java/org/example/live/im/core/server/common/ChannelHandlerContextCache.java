@@ -10,6 +10,7 @@ public class ChannelHandlerContextCache {
 	private static Map<Long, ChannelHandlerContext> channelHandlerContextMap =
 			new HashMap<>();
 	
+	
 	public static ChannelHandlerContext get(Long userId) {
 		return channelHandlerContextMap.get(userId);
 	}

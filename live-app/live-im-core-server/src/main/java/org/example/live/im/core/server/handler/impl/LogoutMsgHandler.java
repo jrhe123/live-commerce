@@ -52,8 +52,12 @@ public class LogoutMsgHandler implements SimplyHandler {
 		
 //		stringRedisTemplate.delete(ImCoreServerConstants.IM_BIND_IP_KEY + appId + userId);
 		
+		
+		// remove it from map
 		ImContextUtils.removeUserId(ctx);
 		ImContextUtils.removeAppId(ctx);
+		
+		
 		ctx.close();
 	}
 

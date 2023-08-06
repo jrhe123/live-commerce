@@ -19,6 +19,7 @@ spring:
       - optional:nacos:live-im-router-provider.yaml # load application.yml from nacos config
 
 
+# 自定义 router cluster 路由 im-core-server 
 # we defined "imRouter" in META-INF folder
 dubbo:
   consumer:

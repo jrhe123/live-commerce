@@ -36,25 +36,29 @@ public class LoginMsgHandler implements SimplyHandler {
         
 		
 		byte[] body = imMsg.getBody();
-		
 		if (body == null || body.length == 0) {
 			ctx.close();
 			LOGGER.error("Error: body error, imMsg: {}", imMsg);
 			throw new IllegalArgumentException("Error: body error");
 		}
 		
+		
+		// convert byte[] -> String -> ImMsgBody
 		ImMsgBody imMsgBody = JSON.parseObject(new String(body), ImMsgBody.class);
 		String token = imMsgBody.getToken();
 		
+		
 		System.out.println(">>>>>>>>> [LoginMsgHandler]: token: " + token);
 		
-		if (StringUtils.isEmpty(token)) {
+		
+		Integer appId = imMsgBody.getAppId();
+		if (StringUtils.isEmpty(token) || appId < 10000) {
 			ctx.close();
-			LOGGER.error("Error: token error, imMsg: {}", imMsg);
+			LOGGER.error("Error: params error, imMsg: {}", imMsg);
 			throw new IllegalArgumentException("Error: token error");
 		}
 		
-		Integer appId = imMsgBody.getAppId();
+		
 		Long userId = imTokenRpc.getUserIdByToken(token);
 		if (userId != null && userId.equals(imMsgBody.getUserId())) {
 			// valid success

@@ -27,6 +27,9 @@ public class BizImMsgHandler implements SimplyHandler {
         // validate
         Long userId = ImContextUtils.getUserId(ctx);
         Integer appId = ImContextUtils.getAppId(ctx);
+        
+        
+        
         if (userId == null || appId == null) {
             LOGGER.error("attr error,imMsg is {}", imMsg);
             ctx.close();
@@ -34,27 +37,32 @@ public class BizImMsgHandler implements SimplyHandler {
         }
         
         
+        
         byte[] body = imMsg.getBody();
         if (body == null || body.length == 0) {
             LOGGER.error("body error,imMsg is {}", imMsg);
             return;
         }
-        
         System.out.println(">>>>>>>. biz handler receive im message");
+        
+        
         
         /**
          * NOTES: it consumes in "live-msg-provider" ImMsgConsumer
          */
-        
         // Send to MQ now
         Message message = new Message();
         message.setTopic(ImCoreServerProviderTopicNames.LIVE_IM_BIZ_MSG_TOPIC);
         message.setBody(body);
+
+        
         
         System.out.println(">>>>>>>. biz handler send it to MQ");
-        
         try {
+        	
             SendResult sendResult = mqProducer.send(message);
+            
+            
             LOGGER.info("[BizImMsgHandler] !!! MQ message send result !!! : {} ", sendResult);
         } catch (Exception e) {
             LOGGER.error("send error ,erros is :", e);

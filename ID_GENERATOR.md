@@ -4,6 +4,8 @@ Live commerce platform
 
 ## ID generator
 
+- live-id-generate-provider
+
 #### Why we use custom generator? (🦄)
 
 ```

@@ -14,6 +14,7 @@ public class ImRouterRpcImpl implements ImRouterRpc {
     private ImRouterService routerService;
 
 	
+	
 	@Override
 	public boolean sendMsg(ImMsgBody imMsgBody) {
 		return routerService.sendMsg(imMsgBody);

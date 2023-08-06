@@ -5,6 +5,13 @@ import org.apache.dubbo.rpc.RpcException;
 import org.apache.dubbo.rpc.cluster.Cluster;
 import org.apache.dubbo.rpc.cluster.Directory;
 
+/**
+ * 
+ * router 自定义 cluster
+ * 
+ * @author jiaronghe
+ *
+ */
 public class ImRouterCluster implements Cluster {
 
     @Override

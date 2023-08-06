@@ -57,12 +57,21 @@ public class ImClientHandler implements InitializingBean {
                 Map<Long, Channel> userIdChannelMap = new HashMap<>();
                 for (int i = 0; i < 10; i++) {
                     Long userId = 200000L + i;
-                    String token = imTokenRpc.createImLoginToken(userId, AppIdEnum.LIVE_BIZ_APP.getCode());
+                    
+                    String token = imTokenRpc.createImLoginToken(
+                    		userId,
+                    		AppIdEnum.LIVE_BIZ_APP.getCode()
+                    		);
                     
                     System.out.println("!!!!!!!!!!!!!!!! generated token: " + token);
                     
                     ChannelFuture channelFuture = null;
                     try {
+                    	/**
+                    	 * 连接im core server
+                    	 * host: localhost
+                    	 * port: 8085
+                    	 */
                         channelFuture = bootstrap.connect("localhost", 8085).sync();
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
@@ -74,7 +83,10 @@ public class ImClientHandler implements InitializingBean {
                     imMsgBody.setUserId(userId);
                     
                     
-                    ImMsg loginMsg = ImMsg.build(ImMsgCodeEnum.IM_LOGIN_MSG.getCode(), JSON.toJSONString(imMsgBody));
+                    ImMsg loginMsg = ImMsg.build(
+                    		ImMsgCodeEnum.IM_LOGIN_MSG.getCode(), 
+                    		JSON.toJSONString(imMsgBody)
+                    		);
                     channel.writeAndFlush(loginMsg);
                     userIdChannelMap.put(userId, channel);
                 }

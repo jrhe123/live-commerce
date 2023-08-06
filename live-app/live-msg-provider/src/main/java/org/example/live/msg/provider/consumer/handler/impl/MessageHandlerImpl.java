@@ -15,6 +15,7 @@ public class MessageHandlerImpl implements MessageHandler {
 
 	@Override
 	public void onMsgReceive(ImMsgBody imMsgBody) {
+				
 //		int bizCode = imMsgBody.getBizCode();
 		
 		//直播间的聊天消息

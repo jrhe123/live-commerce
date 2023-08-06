@@ -37,6 +37,8 @@ public class ImMsgConsumer implements InitializingBean {
     // 加入一个叫路由层的设计，router中转的设计，router就是一个dubbo的rpc层
     // A--> B 
     // im-core-server -> msg-provider(持久化) -> im-core-server -> 通知到b
+    
+    // !!! 怎么知道 B 在哪台 im server???
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		DefaultMQPushConsumer mqPushConsumer = new DefaultMQPushConsumer();

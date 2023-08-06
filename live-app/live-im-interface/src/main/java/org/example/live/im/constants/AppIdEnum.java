@@ -2,7 +2,7 @@ package org.example.live.im.constants;
 
 public enum AppIdEnum {
 
-	LIVE_BIZ_APP(1, "live stream app");
+	LIVE_BIZ_APP(10001, "live stream app");
 	
 	int code;
 	String desc;

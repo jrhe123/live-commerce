@@ -39,6 +39,9 @@ public class HeartBeatImMsgHandler implements SimplyHandler {
         // validate
         Long userId = ImContextUtils.getUserId(ctx);
         Integer appId = ImContextUtils.getAppId(ctx);
+        
+        
+        
         if (userId == null || appId == null) {
             LOGGER.error("attr error,imMsg is {}", imMsg);
             ctx.close();
@@ -48,9 +51,14 @@ public class HeartBeatImMsgHandler implements SimplyHandler {
         
         //心跳包record记录，redis存储心跳记录
         String redisKey = cacheKeyBuilder.buildImLoginTokenKey(userId, appId);
+        
+        
+        
         this.recordOnlineTime(userId, redisKey);
         this.removeExpireRecord(redisKey);
+        // 5分钟，续命
         redisTemplate.expire(redisKey, 5, TimeUnit.MINUTES);
+        
         
         
         //延长用户之前保存的ip绑定记录时间, 2 * heartbeat time elapse
@@ -58,17 +66,27 @@ public class HeartBeatImMsgHandler implements SimplyHandler {
         		ImConstants.DEFAULT_HEART_BEAT_GAP * 2, TimeUnit.SECONDS);
         
         
-        // response msg
+        
+        // response msg 返回数据给客户端
         ImMsgBody msgBody = new ImMsgBody();
         msgBody.setUserId(userId);
         msgBody.setAppId(appId);
         msgBody.setData("true");
-        ImMsg respMsg = ImMsg.build(ImMsgCodeEnum.IM_HEARTBEAT_MSG.getCode(), JSON.toJSONString(msgBody));
+        ImMsg respMsg = ImMsg.build(
+        		ImMsgCodeEnum.IM_HEARTBEAT_MSG.getCode(),
+        		JSON.toJSONString(msgBody)
+        		);
         LOGGER.info("[HeartBeatImMsgHandler] imMsg is {}", imMsg);
+        
+        
+        
         ctx.writeAndFlush(respMsg);
     }
 
     /**
+     * 根据score删除
+     * 
+     * 30sec * 2 = 60sec (两次心跳)
      * 清理掉过期不在线的用户留下的心跳记录(在两次心跳包的发送间隔中，如果没有重新更新score值，就会导致被删除)
      *
      * @param redisKey

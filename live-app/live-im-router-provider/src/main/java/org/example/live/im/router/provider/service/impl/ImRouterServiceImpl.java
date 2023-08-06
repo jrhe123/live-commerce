@@ -24,15 +24,24 @@ public class ImRouterServiceImpl implements ImRouterService {
 
 	@Override
 	public boolean sendMsg(ImMsgBody imMsgBody) {
-		String bindAddress = stringRedisTemplate.opsForValue()
-				.get(ImCoreServerConstants.IM_BIND_IP_KEY + 
-						imMsgBody.getAppId() + imMsgBody.getUserId());
-        
+//		String bindAddress = stringRedisTemplate.opsForValue()
+//				.get(ImCoreServerConstants.IM_BIND_IP_KEY + 
+//						imMsgBody.getAppId() + imMsgBody.getUserId());
+		
+		// im-core-server: ip address & port
+        String bindAddress = "192.168.12.5:9093";
 		
 		if (StringUtils.isEmpty(bindAddress)) {
             return false;
         }
 		
+		/**
+		 * 
+		 * !!! IMPORTANT !!!
+		 * 设置ip，在cluster invoker 中使用ip addr
+		 * 利用对应的rpc ip 找到正确的 im-core-server
+		 * 
+		 */
         RpcContext.getContext().set("ip", bindAddress);
         
         

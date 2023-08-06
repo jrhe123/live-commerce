@@ -14,6 +14,7 @@ public class RouterHandlerRpcImpl implements IRouterHandlerRpc {
 	@Resource
     private IRouterHandlerService routerHandlerService;
 
+	
 	@Override
 	public void sendMsg(ImMsgBody imMsgBody) {
 		routerHandlerService.onReceive(imMsgBody);
