@@ -14,6 +14,9 @@ Live commerce platform
 - netty
 - RocketMQ
 
+![Copy of Copy of Copy of Copy of Copy of Copy of Copy of Untitled Diagram drawio](https://github.com/jrhe123/live-commerce/assets/17329299/3394283e-a719-4c0a-ac36-3f92ea620a5d)
+
+
 #### Steps:
 
 1. NettyImServerStarter
