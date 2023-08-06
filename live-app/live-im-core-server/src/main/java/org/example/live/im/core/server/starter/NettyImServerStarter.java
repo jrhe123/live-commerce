@@ -1,5 +1,6 @@
 package org.example.live.im.core.server.starter;
 
+import org.example.live.im.core.server.common.ChannelHandlerContextCache;
 import org.example.live.im.core.server.common.ImMsgDecoder;
 import org.example.live.im.core.server.common.ImMsgEncoder;
 import org.example.live.im.core.server.handler.ImServerCoreHandler;
@@ -8,6 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+
+import com.alibaba.cloud.commons.lang.StringUtils;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -28,6 +32,11 @@ public class NettyImServerStarter implements InitializingBean {
 	
 	@Resource
 	private ImServerCoreHandler imServerCoreHandler;
+	
+	@Resource
+	private Environment environment;
+	
+	
 
 	// Netty is using NIO
 	// start Netty, blind port
@@ -69,7 +78,23 @@ public class NettyImServerStarter implements InitializingBean {
 			bossGroup.shutdownGracefully();
 			workerGroup.shutdownGracefully();
 		}));
+		
+		// docker 启动中设置ENV
+		// -DUBBO_IP_TO_REGISTRY=192.168.12.5
+		// -DUBBO_PORT_TO_REGISTRY=9093
+		
+		// RUN AS -> RUN CONFIGURATION -> ADD ENV
+		
+//		String registryIp = environment.getProperty("DUBBO_IP_TO_REGISTRY");
+//		String registryPort = environment.getProperty("DUBBO_PORT_TO_REGISTRY");
+		String registryIp = "192.168.12.5";
+		String registryPort = "9093";
 
+		if (StringUtils.isEmpty(registryIp) || StringUtils.isEmpty(registryPort)) {
+			throw new IllegalArgumentException("registryIp and registryPort is required");
+		}
+		
+		ChannelHandlerContextCache.setServerIpAddress(registryIp + ":" + registryPort);
 		ChannelFuture channelFuture = bootstrap.bind(port).sync();
 		LOGGER.info(">>> [NettyImServerApplication] IM service started at port: {}", port);
 

@@ -12,6 +12,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
+import com.example.live.im.core.server.interfaces.constants.ImCoreServerConstants;
 
 import io.netty.channel.ChannelHandlerContext;
 import jakarta.annotation.Resource;
@@ -50,7 +51,9 @@ public class LogoutMsgHandler implements SimplyHandler {
 		// 理想情况下，客户端断线的时候，会发送一个断线消息包
 		ChannelHandlerContextCache.remove(userId);
 		
-//		stringRedisTemplate.delete(ImCoreServerConstants.IM_BIND_IP_KEY + appId + userId);
+		
+		// 移除im ip addr from redis
+		stringRedisTemplate.delete(ImCoreServerConstants.IM_BIND_IP_KEY + appId + userId);
 		
 		
 		// remove it from map

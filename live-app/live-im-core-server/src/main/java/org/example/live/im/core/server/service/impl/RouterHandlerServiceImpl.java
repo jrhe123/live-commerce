@@ -21,9 +21,14 @@ public class RouterHandlerServiceImpl implements IRouterHandlerService {
         Long userId = imMsgBody.getUserId();
         ChannelHandlerContext ctx = ChannelHandlerContextCache.get(userId);
         
-        
+        // 再次检查 client B 是否在线
         if (ctx != null) {
-            ImMsg respMsg = ImMsg.build(ImMsgCodeEnum.IM_BIZ_MSG.getCode(), JSON.toJSONString(imMsgBody));
+        	
+            ImMsg respMsg = ImMsg.build(
+            		ImMsgCodeEnum.IM_BIZ_MSG.getCode(),
+            		JSON.toJSONString(imMsgBody)
+            		);
+            
             ctx.writeAndFlush(respMsg);
         }
     }

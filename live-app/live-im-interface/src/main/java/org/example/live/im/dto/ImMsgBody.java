@@ -14,6 +14,8 @@ public class ImMsgBody implements Serializable {
 	
 	private String token;
 	
+	private int bizCode;
+	
 	private String data;
 
 	
@@ -52,11 +54,22 @@ public class ImMsgBody implements Serializable {
 		this.data = data;
 	}
 	
+	public int getBizCode() {
+		return bizCode;
+	}
+
+	public void setBizCode(int bizCode) {
+		this.bizCode = bizCode;
+	}
+
 	
 	
 	@Override
 	public String toString() {
-		return "ImMsgBody [appId=" + appId + ", userId=" + userId + ", token=" + token + ", data=" + data + "]";
+		return "ImMsgBody [appId=" + appId + ", userId=" + userId + ", token=" + token + ", bizCode=" + bizCode
+				+ ", data=" + data + "]";
 	}
+	
+	
 	
 }

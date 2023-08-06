@@ -17,6 +17,11 @@ public class RouterHandlerRpcImpl implements IRouterHandlerRpc {
 	
 	@Override
 	public void sendMsg(ImMsgBody imMsgBody) {
+		/**
+		 * 
+		 * 发送到client B (im core server)
+		 * send to client B now
+		 */
 		routerHandlerService.onReceive(imMsgBody);
 	}
 

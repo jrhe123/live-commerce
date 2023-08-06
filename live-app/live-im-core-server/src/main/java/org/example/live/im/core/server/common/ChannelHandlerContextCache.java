@@ -6,7 +6,22 @@ import java.util.Map;
 import io.netty.channel.ChannelHandlerContext;
 
 public class ChannelHandlerContextCache {
+	
+	private static String SERVER_IP_ADDRESS = "";
+	
 
+	public static String getServerIpAddress() {
+		return SERVER_IP_ADDRESS;
+	}
+
+	public static void setServerIpAddress(String sERVER_IP_ADDRESS) {
+		SERVER_IP_ADDRESS = sERVER_IP_ADDRESS;
+	}
+
+	
+	
+	
+	
 	private static Map<Long, ChannelHandlerContext> channelHandlerContextMap =
 			new HashMap<>();
 	

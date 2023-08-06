@@ -23,13 +23,13 @@ public class ImRouterServiceImpl implements ImRouterService {
     private StringRedisTemplate stringRedisTemplate;
 
 	@Override
-	public boolean sendMsg(ImMsgBody imMsgBody) {
-//		String bindAddress = stringRedisTemplate.opsForValue()
-//				.get(ImCoreServerConstants.IM_BIND_IP_KEY + 
-//						imMsgBody.getAppId() + imMsgBody.getUserId());
-		
+	public boolean sendMsg(ImMsgBody imMsgBody) {		
 		// im-core-server: ip address & port
-        String bindAddress = "192.168.12.5:9093";
+        // String bindAddress = "192.168.12.5:9093";
+		
+		String bindAddress = stringRedisTemplate.opsForValue()
+				.get(ImCoreServerConstants.IM_BIND_IP_KEY + 
+						imMsgBody.getAppId() + imMsgBody.getUserId());
 		
 		if (StringUtils.isEmpty(bindAddress)) {
             return false;

@@ -44,6 +44,7 @@ Live commerce platform
 
 - org.example.live.msg.provider.consumer.ImMsgConsumer
 - org.example.live.msg.provider.consumer.handler.impl.MessageHandlerImpl (onMsgReceive 消化消息)
+  - onMsgReceive: 调用 ImRouterRpc，sendMsg 到 im-core-server(client B)
 
 5. Router for IM
 
@@ -58,6 +59,9 @@ Live commerce platform
   - 实现 cluster (找到 nacos 注册中心上一系列的 ip 地址)
     - org.example.live.im.router.provider.cluster.ImRouterCluster
     - org.example.live.im.router.provider.cluster.ImRouterClusterInvoker<T>
+- 最终返回 im-core-server(client B)
+  - org.example.live.im.core.server.service.impl.RouterHandlerServiceImpl
+    - onReceive
 
 #### Test case 1
 

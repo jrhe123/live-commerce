@@ -1,7 +1,10 @@
 package org.example.live.im.core.server.handler.impl;
 
+import java.util.concurrent.TimeUnit;
+
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.example.live.im.constants.AppIdEnum;
+import org.example.live.im.constants.ImConstants;
 import org.example.live.im.constants.ImMsgCodeEnum;
 import org.example.live.im.core.server.common.ChannelHandlerContextCache;
 import org.example.live.im.core.server.common.ImContextUtils;
@@ -11,12 +14,15 @@ import org.example.live.im.dto.ImMsgBody;
 import org.example.live.im.interfaces.ImTokenRpc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.cloud.commons.lang.StringUtils;
 import com.alibaba.fastjson.JSON;
+import com.example.live.im.core.server.interfaces.constants.ImCoreServerConstants;
 
 import io.netty.channel.ChannelHandlerContext;
+import jakarta.annotation.Resource;
 
 @Component
 public class LoginMsgHandler implements SimplyHandler {
@@ -26,6 +32,9 @@ public class LoginMsgHandler implements SimplyHandler {
 	
 	@DubboReference
 	private ImTokenRpc imTokenRpc;
+	
+	@Resource
+	private StringRedisTemplate stringRedisTemplate;
 
 	@Override
 	public void handler(ChannelHandlerContext ctx, ImMsg imMsg) {
@@ -78,6 +87,13 @@ public class LoginMsgHandler implements SimplyHandler {
 			
 			ImMsg resMsg = ImMsg.build(
 					ImMsgCodeEnum.IM_LOGIN_MSG.getCode(), JSON.toJSONString(resBody));
+			
+			// 记录im server ip 在 redis
+			stringRedisTemplate.opsForValue().set(
+					ImCoreServerConstants.IM_BIND_IP_KEY + appId + userId,
+					ChannelHandlerContextCache.getServerIpAddress(),
+					ImConstants.DEFAULT_HEART_BEAT_GAP * 2,
+					TimeUnit.SECONDS);
 			
 			ctx.writeAndFlush(resMsg);
 			return;
